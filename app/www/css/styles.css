@@ -1,0 +1,63 @@
+body {
+
+	background-color: #ededed;
+
+}
+
+@font-face{
+
+    font-family:'Glyphicons Halflings';
+    src:url(fonts/glyphicons-halflings-regular.eot);
+
+}
+
+#header {
+
+	line-height: 90%;
+	margin: 1%;
+
+}
+
+.styled-div p {
+
+	display: inline-block;
+
+}
+
+.styled-div {
+
+	padding-top: 1%;
+	border-radius: 25px;
+	background-color: white;
+	line-height: 45%;
+
+}
+
+.styled-div div {
+
+	margin: 2%;
+	padding-bottom: 1%;
+
+}
+
+.styled-div input {
+
+	margin-right: 1em;
+
+}
+
+.styled-div2 {
+
+	padding-top: 1%;
+	border-radius: 25px;
+	background-color: white;
+
+}
+
+.styled-div2 div {
+
+	margin-left: 1%;
+	margin-right: 1%;
+	padding-bottom: 1%;
+
+}
