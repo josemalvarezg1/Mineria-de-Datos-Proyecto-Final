@@ -6,7 +6,7 @@
     <script src="shared/jquery.js" type="text/javascript"></script>
     <script src="shared/shiny.js" type="text/javascript"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
+    <title>Proyecto Minería de Datos — 25038805_20615639</title>
     <link rel="stylesheet" type="text/css" href="css/styles.css"/> 
 
     <script type="text/javascript">
@@ -28,6 +28,10 @@
 
         }
 
+        $("#button-rules").click(function(){
+          $("#rules").fadeToggle("slow");
+        });
+
       });
 
     </script>
@@ -38,7 +42,7 @@
 
   <div class="container-fluid">
 
-    <div class="row">
+    <div class="row ">
 
       <div class="col-md-12">
 
@@ -88,7 +92,8 @@
             <input type="radio" name="radio-quot-movies" id="none-movies"><p>Ninguna</p><br/> 
 
             <br/><br/>  
-            <button type="button" class="btn btn-primary" style="width:25%">Pre-procesar</button>
+            <button type="button" class="btn btn-primary" style="width:25%" disabled><h4>Pre-procesar</h4></button>
+            <br/><br/><br/>
 
           </div>
 
@@ -118,7 +123,8 @@
             <input type="radio" name="radio-quot-ratings" id="none-ratings"><p>Ninguna</p><br/> 
 
             <br/><br/>  
-            <button type="button" class="btn btn-primary" style="width:25%">Pre-procesar</button>
+            <button type="button" class="btn btn-primary" style="width:25%" disabled><h4>Pre-procesar</h4></button>
+            <br/><br/><br/> 
 
           </div>
 
@@ -134,9 +140,11 @@
 
         <div class="styled-div2">
 
-          <div>
+          <button class="btn btn-primary" id="button-rules" style="float:right; margin-right: 15px; margin-top: 5px">Mostrar/Ocultar</button>
 
-            <p><strong>Reglas de Asociación:</strong></p><br/>
+          <h4 style="margin-left: 15px"><strong>Reglas de Asociación </strong></h4><br/>
+
+          <div id="rules">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed quod maxime, laudantium laborum rerum. Magnam, quaerat velit aliquam. Dolorem repellendus, exercitationem reprehenderit eius debitis cum, explicabo unde vitae reiciendis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed quod maxime, laudantium laborum rerum. Magnam, quaerat velit aliquam. Dolorem repellendus, exercitationem reprehenderit eius debitis cum, explicabo unde vitae reiciendis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed quod maxime, laudantium laborum rerum. Magnam, quaerat velit aliquam. Dolorem repellendus, exercitationem reprehenderit eius debitis cum, explicabo unde vitae reiciendis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed quod maxime, laudantium laborum rerum. Magnam, quaerat velit aliquam. Dolorem repellendus, exercitationem reprehenderit eius debitis cum, explicabo unde vitae reiciendis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam sed quod maxime, laudantium laborum rerum. Magnam, quaerat velit aliquam. Dolorem repellendus, exercitationem reprehenderit eius debitis cum, explicabo unde vitae reiciendis.
 
             <h3>En este punto deberían mostrarse diversos puntos de interés, como un frequencyPlot o las 5 reglas más comunes.</h3>
@@ -154,10 +162,17 @@
     </br>
 
     <!-- ALVARO -->
+    <div class="styled-div2">
+
+    <div class="jumbotron" style="margin-bottom:25px">
+      <div class="container text-center">
+        <h1>App PelículasSugeridas</h1>      
+      </div>
+    </div>
 
     <div class="row">
 
-    <div class="col-sm-3 well ">
+    <div class="col-sm-3 well">
      
         <label>Género</label>
         <select class="form-control" id="sel1">
@@ -177,27 +192,27 @@
         </select><br>
 
         <div >
-        <div id="fechaIni" style="width:45%; float:left; ">
+        <div id="fechaIni" style="width:42%; float:left;">
         <label>Desde</label>
          <select class="form-control" id="sel3"></select>
        </div>
           
 
-         <div id="fechaFin" style="width:45%; float:left; margin-left:10%; margin-bottom:25px; ">
+        <div id="fechaFin" style="width:42%; float:left; margin-left:10%; margin-bottom:25px; ">
          <label >Hasta</label>
          <select class="form-control" id="sel4" ></select>
          </div> 
        </div>
        
        
-          <button type="button" class="btn btn-primary" style="width:100%"><h4>Sugerir Película</h4></button>
+        <button type="button" class="btn btn-primary" style="width:100%"><h4>Sugerir Película</h4></button>
         
     </div>  <!--Aqui termina el buscador-->
    
-    <div class="col-sm-9">
+    <div class="col-sm-8">
     
       <div class="row">
-        <div class="col-sm-10" style="margin-left:50px ;margin-bottom:50px;">
+        <div class="col-sm-12" style="margin-left:50px ;margin-bottom:50px;">
           <div class="well">
               <h2>Titulo pelicula 1</h2>
               <section>Imagen pelicula 1 y datos</section>
@@ -207,7 +222,7 @@
       </div>
       
       <div class="row">
-        <div class="col-sm-10" style="margin-left:50px; margin-bottom:50px; ">
+        <div class="col-sm-12" style="margin-left:50px; margin-bottom:50px; ">
           <div class="well">
               <h2>Titulo pelicula 2</h2>
               <section>Imagen pelicula 2 y datos</section>
@@ -217,7 +232,9 @@
       </div>      
         
     </div><!--Aqui termina la el col-sm-9-->
-    
+
+  </div>
+
   </div>
 
    </div>
