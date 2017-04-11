@@ -2,7 +2,8 @@
 
 library(shiny)	# Se incluye la biblioteca de Shiny
 library(arules) # Se incluye la biblioteca de Reglas de Asociacion
-library(arulesViz)
+library(arulesViz) # Se incluye la biblioteca de Reglas de Asociacion
+library(stringr) # Se incluye la biblioteca para manejar cadenas de caracteres
 
 runApp("app", display.mode = "showcase")	# Se ejecuta la aplicacion en Shiny
 
@@ -44,6 +45,18 @@ movies$generos <- as.character(movies$generos)
 #Se reemplaza el separador | por una coma en los generos de cada pelicula
 movies$generos <- gsub("\\|", ",", movies$generos)
 
+#Transformacion de los generos a variables dummies
+t <- strsplit(movies$generos, split = ",")
+tags <- unique(str_trim(unlist(t)))
+df2 <- as.data.frame(Reduce(cbind, lapply(tags, function(i) sapply(t, function(j) +(any(grepl(i, j), na.rm = TRUE))))))
+names(df2) <- tags
+
+#Añadir variables dummies al dataframe movies
+movies <- cbind(movies, df2)
+
+# Eliminar variable generos
+movies$generos <- NULL
+
 #Se lee el dataset de ratings
 ratings <- read.csv(file = "data/ratings.csv", header = T)
 
@@ -55,8 +68,25 @@ ratings$timestamp <- NULL
 #Se identifican las columnas del dataset leido
 colnames(ratings) <- c("ID_pelicula", "puntuacion" )
 
+# Hacer el join de los dataframes
+joined = cbind(movies[match(ratings$ID_pelicula, movies$ID_pelicula),], ratings$puntuacion)
+joined$titulo_pelicula<-NULL
 
-alimentacion <- read.transactions("data/ratings.csv")
-reglas <- apriori(alimentacion)
-summary(reglas)
+#Renombrar la columna de puntuacion
+colnames(joined)[23]<-"puntuacion"
 
+#Reglas de asociacion
+
+# Se transforman las columnas a Factor para poder cambiar el dataframe a transactions
+
+ratings$ID_pelicula <- factor(ratings$ID_pelicula)
+ratings$puntuacion <- factor(ratings$puntuacion)
+
+#Transformacion de dataframe a transactions
+votacion <- as(ratings,"transactions")
+
+# Ejecucion de Apriori con parametros por defecto
+reglas <- apriori(votacion,parameter=list(sup = 0.001, conf = 0.001))
+
+#Imprimir Reglas de asociacion
+inspect(reglas)
