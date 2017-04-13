@@ -7,6 +7,8 @@ library(stringr) # Se incluye la biblioteca para manejar cadenas de caracteres
 
 runApp("app", display.mode = "showcase")	# Se ejecuta la aplicacion en Shiny
 
+
+
 ### Pre-procesamiento
 
 #Se lee el dataset de peliculas
@@ -70,6 +72,8 @@ colnames(ratings) <- c("ID_pelicula", "puntuacion" )
 
 # Hacer el join de los dataframes
 joined = cbind(movies[match(ratings$ID_pelicula, movies$ID_pelicula),], ratings$puntuacion)
+
+#Se elimina la columna de titulo de pelicula
 joined$titulo_pelicula<-NULL
 
 #Renombrar la columna de puntuacion
@@ -85,8 +89,12 @@ ratings$puntuacion <- factor(ratings$puntuacion)
 #Transformacion de dataframe a transactions
 votacion <- as(ratings,"transactions")
 
-# Ejecucion de Apriori con parametros por defecto
-reglas <- apriori(votacion,parameter=list(sup = 0.001, conf = 0.001))
+# Ejecucion de Apriori
+# 0.0001 y 0.01 son buenos valores 1693+166
+reglas <- apriori(votacion,parameter=list(minlen=2,sup = 0.0001, conf = 0.01))
 
+sorted <- sort(reglas, by="support")
 #Imprimir Reglas de asociacion
 inspect(reglas)
+plot(reglas)
+
