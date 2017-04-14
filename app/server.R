@@ -3,7 +3,11 @@ library(arules) # Se incluye la biblioteca de Reglas de Asociacion
 library(arulesViz) # Se incluye la biblioteca de Reglas de Asociacion
 library(stringr) # Se incluye la biblioteca para manejar cadenas de caracteres
 
-# Define server logic for random distribution application
+global <- reactiveValues()
+global$movies <- NULL
+global$ratings <- NULL
+global$rules <- NULL
+
 shinyServer(function(input, output) {
 
   #Funcion que retorna los ultimos caracteres de un string
@@ -13,11 +17,11 @@ shinyServer(function(input, output) {
 
   }
 
-  #Funcion que realiza el pre-procesamiento del dataset de movies
-  movies <- function() {
+  observeEvent(input$preProcess, {
 
     inFile <- input$fileMovies
-    if (is.null(inFile)) return(NULL)    
+    #if (is.null(inFile)) return(NULL) 
+
     #Se lee el dataset de peliculas
     movies_aux <- read.csv(inFile$datapath, header=TRUE, sep=",")
 
@@ -61,15 +65,10 @@ shinyServer(function(input, output) {
     # Eliminar variable generos
     movies_aux$generos <- NULL
 
-    movies <- movies_aux
-
-  }
-
-  #Funcion que realiza el pre-procesamiento del dataset de ratings
-  ratings <- function() {
+    global$movies <- movies_aux
 
     inFile <- input$fileRatings
-    if (is.null(inFile)) return(NULL)  
+    #if (is.null(inFile)) return(NULL)  
 
     #Se lee el dataset de ratings
     ratings_aux <- read.csv(inFile$datapath, header=TRUE, sep=",")
@@ -82,16 +81,25 @@ shinyServer(function(input, output) {
     #Se identifican las columnas del dataset leido
     colnames(ratings_aux) <- c("ID_pelicula", "puntuacion" )
 
-    ratings <- ratings_aux
+    global$ratings <- ratings_aux
 
-  }
+    rules()
+    graph()
+
+  })
+
+  actual.value <- reactive({
+
+    global$ratings
+
+  })
 
   rules <- function() {
 
     #Reglas de asociacion
-    if (is.null(ratings())) return(NULL)  
+
     # Se transforman las columnas a Factor para poder cambiar el dataframe a transactions
-    ratings <- ratings()
+    ratings <- global$ratings
     ratings$ID_pelicula <- factor(ratings$ID_pelicula)
     ratings$puntuacion <- factor(ratings$puntuacion)
 
@@ -104,27 +112,24 @@ shinyServer(function(input, output) {
 
     sorted <- sort(reglas, by="support")
 
-    rules <- sorted
+    global$rules <- sorted
 
   }
+  
+  graph <- function() {
 
-  output$plot <- renderPlot({
-
-    #Imprimir Reglas de asociacion
-    if (is.null(rules())) return(NULL)  
-    plot(rules())
-
-  })
-
-  output$summary <- renderPrint({
+    output$plot <- renderPlot({
     
-    #Imprimir Reglas de asociacion
-    if (!is.null(rules())) {
-      options(max.print=30)
-      inspect(rules())
-      options(max.print=999999)
-    }
+      plot(global$rules, main="Todas las 1849 reglas.")
 
-  })
+    })
+
+    output$plot2 <- renderPlot({
+    
+      plot(head(sort(global$rules, by="lift"), 30), main="30 reglas más importantes.");
+
+    })
+
+  }
 
 })

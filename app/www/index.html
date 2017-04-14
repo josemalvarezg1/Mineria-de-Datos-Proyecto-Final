@@ -34,6 +34,35 @@
 
         });
 
+        $("#fileMovies").change(function() {
+
+	        activatePreProcess();
+
+	    });
+
+        $("#fileRatings").change(function() {
+
+	        activatePreProcess();
+
+	    });
+
+        function activatePreProcess() {
+
+        	var fileMovies = $("#fileMovies").val();
+       		var fileRatings = $("#fileRatings").val();
+
+       		if (fileMovies && fileRatings) {
+
+       			$("#preProcess").removeAttr("disabled");       			
+    
+       		} else {
+
+       			$("#preProcess").attr("disabled", true);
+
+       		}
+
+        }
+
       });
 
     </script>
@@ -55,7 +84,7 @@
             <p>Universidad Central de Venezuela</p>
             <p>Escuela de Computación</p>
             <p>Minería de Datos</p>
-            <p>José Manuel Alvarez García — CI 25038805</p>
+            <p>José Manuel Alvarez — CI 25038805</p>
             <p>Alvaro Sanabria — CI 20615639</p>
             <p><strong>Proyecto final: </strong>Análisis de Reglas de Asociación</p>
           </h4>
@@ -93,7 +122,7 @@
             <input type="radio" name="radio-quot-movies" id="double-movies"><p>Dobles</p><br/> 
             <input type="radio" name="radio-quot-movies" id="none-movies"><p>Ninguna</p><br/> 
 
-            <br/><br/>  
+           	<br/><br/> 
 
           </div>
 
@@ -122,7 +151,7 @@
             <input type="radio" name="radio-quot-ratings" id="double-ratings"><p>Dobles</p><br/> 
             <input type="radio" name="radio-quot-ratings" id="none-ratings"><p>Ninguna</p><br/> 
 
-            <br/><br/>  
+            <br/><br/>              
 
           </div>
 
@@ -131,6 +160,23 @@
       </div>
 
     </div>
+
+    <div class="row">
+
+    	<div class="col-md-12">
+
+     		<div class="styled-div">
+
+	            <button type="button" class="btn btn-primary action-button" id="preProcess" style="width:100%" disabled><h4>¡Pre-procesar y generar reglas!</h4></button>
+	            <br/><br/><br/>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <br/>
 
     <div class="row">
 
@@ -146,15 +192,15 @@
 
             <div class="row">
 
-              <div class="col-sm-7">
+              <div class="col-sm-6">
                 
-                <div id="plot" class="shiny-plot-output" style="width: 100%; height: 100%"></div>
+                <div id="plot" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
 
               </div>
 
-              <div class="col-sm-5" style="max-height: 500px; margin-left: -50px;">
+              <div class="col-sm-6" style="max-height: 500px; margin-left: -50px;">
                 
-                <pre id="summary" class="shiny-text-output"></pre>
+                <div id="plot2" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
 
               </div>
 
