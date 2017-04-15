@@ -8,7 +8,6 @@ global <- reactiveValues()
 global$movies <- NULL
 global$ratings <- NULL
 global$rulesByName <- NULL
-global$rulesByYear <- NULL
 
 shinyServer(function(input, output, session) {
 
@@ -149,48 +148,7 @@ shinyServer(function(input, output, session) {
                
       }
 
-    } else {
-
-      desde <- as.integer(input$sel3)
-      hasta <- as.integer(input$sel4)
-
-      years <- NULL
-      for (i in desde:hasta) {
-
-        years <- c(years, i)
-
-      }
-
-      if (desde == 1902) {
-
-        years <- NULL
-        years <- c(years, 1902)
-
-      }
-
-      years <- as.character(years)
-
-      subreglas = subset(global$rulesByYear, subset = lhs %in% c(years))
-
-      if (length(subreglas) > 0) {
-
-        output$summary <- renderPrint({
-        
-            inspect(head(subreglas))          
-
-        })
-
-      } else {
-
-        output$summary <- renderPrint({
-
-          cat("No se han encontrado reglas para este rango de años.") 
-
-        })
-
-      }
-
-    }    
+    }  
 
   })
 
@@ -245,8 +203,17 @@ shinyServer(function(input, output, session) {
     #Se agrega una nueva columna al dataset correspondiente al año de cada pelicula
     movies_aux[ , "anno_pelicula"] <- annos
 
-    #Se eliminara el año del titulo de cada pelicula
-    movies_aux$titulo_pelicula <- substring(movies_aux$titulo_pelicula, 1, nchar(movies_aux$titulo_pelicula)-6)
+    #Eliminando parentesis en el titulo de cada pelicula
+    movies_aux$titulo_pelicula <- gsub("\\(", "", movies_aux$titulo_pelicula)
+    movies_aux$titulo_pelicula <- gsub(")", "", movies_aux$titulo_pelicula)
+
+    #Colocando annos como titulo - anno
+    movies_aux$titulo_pelicula <- sapply(movies_aux$titulo_pelicula, function(string) {
+      yearMovie <- NULL
+      yearMovie <- ultimosCaracteres(string,4)
+      string <- substr(string, 1, nchar(string)-4)
+      string <- paste(string,"- ",yearMovie, sep="")
+    }  ) 
 
     #Los generos de cada pelicula van a ser tratados como un tipo de dato String (cadena de caracteres)
     movies_aux$generos <- as.character(movies_aux$generos)
@@ -375,14 +342,6 @@ shinyServer(function(input, output, session) {
 
     global$rulesByName <- rules
 
-    #Reglas por anno de cada pelicula
-    userrates <- merge(global$ratings,global$movies,by="ID_pelicula")
-    userrates2 = as( split(as.vector(userrates$anno_pelicula), as.vector(userrates$userId)) , "transactions" )
-    rules = apriori( userrates2 , parameter=list(supp=0.005, conf=0.5, target="rules", minlen=2, maxlen=2,maxtime=20) )
-    rules = sort(rules, by ="lift")
-
-    global$rulesByYear <- rules
-
   }
   
   graph <- function() {
@@ -395,19 +354,6 @@ shinyServer(function(input, output, session) {
     })
 
     output$plot2 <- renderPlot({
-    
-      plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
-
-    })
-
-    output$plot3 <- renderPlot({
-
-      #Colocar un boxplot o inspect aqui    
-      plot(head(sort(global$rulesByYear, by="lift"), 30), main="30 reglas más importantes.");
-
-    })
-
-    output$plot4 <- renderPlot({
     
       plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
 

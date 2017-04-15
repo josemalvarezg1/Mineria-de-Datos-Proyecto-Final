@@ -48,31 +48,6 @@
         
         $("#annos").hide();
 
-        var i = 0;
-        for (i = 2016; i >= 1915; i--) { 
-
-          $('#sel3').append($('<option>', {
-              value: i,
-              text: i
-          }));
-
-          $('#sel4').append($('<option>', {
-              value: i,
-              text: i
-          }));
-
-        }
-
-        $('#sel3').append($('<option>', {
-            value: 1902,
-            text: 1902
-        }));
-
-        $('#sel4').append($('<option>', {
-            value: 1902,
-            text: 1902
-        }));
-
         $("#button-rules").click(function(){
 
           $("#rules").fadeToggle("slow");
@@ -379,22 +354,6 @@
               <div class="col-sm-6" style="max-height: 500px; margin-left: -50px;">
                 
                 <div id="plot2" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
-
-              </div>
-
-            </div>
-
-            <div class="row" id="rulesYear">
-
-              <div class="col-sm-6">
-                
-                <div id="plot3" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
-
-              </div>
-
-              <div class="col-sm-6" style="max-height: 500px; margin-left: -50px;">
-                
-                <div id="plot4" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
 
               </div>
 
