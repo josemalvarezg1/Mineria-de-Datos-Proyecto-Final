@@ -85,11 +85,19 @@
 
             $("#annos").hide();
             $("#names").show();
+            $("#sugerir").attr("disabled", true);
+            $("#nameMovie").val("");
 
           } else {
 
             $("#names").hide();
             $("#annos").show();
+
+            if (tags.length > 0) {
+
+              $("#sugerir").removeAttr("disabled"); 
+
+            }
 
           }
 
@@ -157,13 +165,17 @@
 
         $('#nameMovie').bind("change paste keyup", function() {
 
-          if (tags.indexOf($("#nameMovie").val()) > -1) {
+          if ($('#selFilter').find(":selected").text() == "Título") {
 
-            $("#sugerir").removeAttr("disabled"); 
+            if (tags.indexOf($("#nameMovie").val()) > -1) {
 
-          } else {
+              $("#sugerir").removeAttr("disabled"); 
 
-            $("#sugerir").attr("disabled", true);
+            } else {
+
+              $("#sugerir").attr("disabled", true);
+
+            }
 
           }
 
