@@ -6,7 +6,8 @@ library(stringr) # Se incluye la biblioteca para manejar cadenas de caracteres
 global <- reactiveValues()
 global$movies <- NULL
 global$ratings <- NULL
-global$rules <- NULL
+global$rulesByName <- NULL
+global$rulesByYear <- NULL
 
 shinyServer(function(input, output) {
 
@@ -16,6 +17,61 @@ shinyServer(function(input, output) {
     substr(x, nchar(x)-n+1, nchar(x))
 
   }
+
+  observeEvent(input$sugerir, {
+
+    if (input$selFilter == "Título") {
+
+      subreglas = subset(global$rulesByName, subset = lhs %pin% as.character(input$nameMovie))
+
+      if (length(subreglas) > 0) {
+        
+        summary(subreglas)
+        inspect(head(subreglas))
+
+        output$summary <- renderPrint({
+        
+            inspect(head(subreglas))      
+
+            #Para obtener el consecuente
+            rule <- inspect(subreglas[1]);
+            rule <- rule[3]    
+
+        })
+
+      }
+
+    } else {
+
+      desde <- as.integer(input$sel3)
+      hasta <- as.integer(input$sel4)
+
+      years <- NULL
+      for (i in desde:hasta) {
+
+        years <- c(years, i)
+
+      }
+      years <- as.character(years)
+
+      subreglas = subset(global$rulesByYear, subset = lhs %in% c(years))
+
+      if (length(subreglas) > 0) {
+
+        summary(subreglas)
+        inspect(head(subreglas))
+
+        output$summary <- renderPrint({
+        
+            inspect(head(subreglas))          
+
+        })
+
+      }
+
+    }    
+
+  })
 
   observeEvent(input$preProcess, {
 
@@ -74,12 +130,12 @@ shinyServer(function(input, output) {
     ratings_aux <- read.csv(inFile$datapath, header=TRUE, sep=",")
 
     #Se elimina la columna userId
-    ratings_aux$userId <- NULL
+    #ratings_aux$userId <- NULL
     #Se elimina la columna timestamp
-    ratings_aux$timestamp <- NULL
+    #ratings_aux$timestamp <- NULL
 
     #Se identifican las columnas del dataset leido
-    colnames(ratings_aux) <- c("ID_pelicula", "puntuacion" )
+    colnames(ratings_aux) <- c("userId", "ID_pelicula", "puntuacion", "timestamp" )
 
     global$ratings <- ratings_aux
 
@@ -94,39 +150,65 @@ shinyServer(function(input, output) {
 
   })
 
+ 
+
   rules <- function() {
 
     #Reglas de asociacion
 
     # Se transforman las columnas a Factor para poder cambiar el dataframe a transactions
-    ratings <- global$ratings
-    ratings$ID_pelicula <- factor(ratings$ID_pelicula)
-    ratings$puntuacion <- factor(ratings$puntuacion)
+    userrates <- merge(global$ratings,global$movies,by="ID_pelicula")
+    userrates2 = as( split(as.vector(userrates$titulo_pelicula), as.vector(userrates$userId)) , "transactions" )
+    rules = apriori( userrates2 , parameter=list(supp=0.005, conf=0.5, target="rules", minlen=2, maxlen=2,maxtime=20) )
+    summary(rules)
+    inspect(head(rules))
+    rules = sort(rules, by ="lift")
+    subreglas = subset(rules, subset = lhs %pin% as.character("Angels & Demons"))
+    summary(subreglas)
+    inspect(head(subreglas))
 
-    #Transformacion de dataframe a transactions
-    votacion <- as(ratings,"transactions")
+    global$rulesByName <- rules
 
-    # Ejecucion de Apriori
-    # 0.0001 y 0.01 son buenos valores 1693+166
-    reglas <- apriori(votacion,parameter=list(minlen=2,sup = 0.0001, conf = 0.01))
 
-    sorted <- sort(reglas, by="support")
+    userrates <- merge(global$ratings,global$movies,by="ID_pelicula")
+    userrates2 = as( split(as.vector(userrates$anno_pelicula), as.vector(userrates$userId)) , "transactions" )
+    rules = apriori( userrates2 , parameter=list(supp=0.005, conf=0.5, target="rules", minlen=2, maxlen=2,maxtime=20) )
+    summary(rules)
+    inspect(head(rules))
+    rules = sort(rules, by ="lift")
+    subreglas = subset(rules, subset = lhs %pin% as.character("1980"))
+    summary(subreglas)
+    inspect(head(subreglas))
 
-    global$rules <- sorted
+    global$rulesByYear <- rules
 
   }
   
   graph <- function() {
 
-    output$plot <- renderPlot({
-    
-      plot(global$rules, main="Todas las 1849 reglas.")
+    output$plot1 <- renderPlot({
+
+      #Colocar un boxplot o inspect aqui
+      plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
 
     })
 
     output$plot2 <- renderPlot({
     
-      plot(head(sort(global$rules, by="lift"), 30), main="30 reglas más importantes.");
+      plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
+
+    })
+
+    output$plot3 <- renderPlot({
+
+      #Colocar un boxplot o inspect aqui    
+      plot(head(sort(global$rulesByYear, by="lift"), 30), main="30 reglas más importantes.");
+
+    })
+
+    output$plot4 <- renderPlot({
+    
+      plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
 
     })
 
