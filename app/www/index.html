@@ -226,20 +226,28 @@
           <div>
 
             <p><strong>Cargar Dataset de Películas: (Cambiar a botón de bootstrap)</strong></p><br/> 
-            <input id="fileMovies" type="file"><br/><br/><br/>
-            <input type="checkbox" id="include-header-movies" checked><p>Incluir cabecera</p><br/> 
+            <input id="fileMovies" type="file"><br/>
+            <input type="checkbox" id="includeheadermovies" checked><p>Incluir cabecera</p><br/> 
 
           
             <br/><p><strong>Separador: </strong></p><br/> 
-            <input type="radio" name="radio-separator-movies" id="comma-movies" checked><p>Coma</p><br/> 
-            <input type="radio" name="radio-separator-movies" id="semicolon-movies"><p>Punto y coma</p><br/> 
-            <input type="radio" name="radio-separator-movies" id="tab-movies"><p>Tabulación</p><br/> 
+            <div id="test" class="form-group shiny-input-radiogroup shiny-input-container ">
+              <div class="shiny-options-group">
+                <input type="radio" name="test" value="Coma" checked><p>Coma</p><br/> 
+                <input type="radio" name="test" value="Puntoycoma"><p>Punto y coma</p><br/> 
+                <input type="radio" name="test" value="Tabular"><p>Tabulación</p><br/> 
+              </div>
+            </div>
 
             <br/><p><strong>Comillas: </strong></p><br/> 
-            <input type="radio" name="radio-quot-movies" id="simple-movies" checked><p>Simples</p><br/> 
-            <input type="radio" name="radio-quot-movies" id="double-movies"><p>Dobles</p><br/> 
-            <input type="radio" name="radio-quot-movies" id="none-movies"><p>Ninguna</p><br/> 
-
+            <div id="radioquotmovies" class="form-group shiny-input-radiogroup shiny-input-container ">
+              <div class="shiny-options-group">
+                <input type="radio" name="radioquotmovies" value="simplemovies"><p>Simples</p><br/> 
+                <input type="radio" name="radioquotmovies" value="doublemovies" checked><p>Dobles</p><br/> 
+                <input type="radio" name="radioquotmovies" value="nonemovies"><p>Ninguna</p><br/> 
+              </div>
+            </div>
+              
             <br/><br/> 
 
           </div>
@@ -255,19 +263,28 @@
           <div>
 
             <p><strong>Cargar Dataset de Ratings: (Cambiar a botón de bootstrap)</strong></p><br/> 
-            <input id="fileRatings" type="file"><br/><br/><br/>
-            <input type="checkbox" id="include-header-ratings" checked><p>Incluir cabecera</p><br/> 
+            <input id="fileRatings" type="file"><br/>
+            <input type="checkbox" id="includeheaderratings" checked><p>Incluir cabecera</p><br/> 
 
+          
             <br/><p><strong>Separador: </strong></p><br/> 
-            <input type="radio" name="radio-separator-ratings" id="commaRatings" checked><p>Coma</p><br/> 
-            <input type="radio" name="radio-separator-ratings" id="semicolonRatings"><p>Punto y coma</p><br/> 
-            <input type="radio" name="radio-separator-ratings" id="tabRatings"><p>Tabulación</p><br/> 
+            <div id="radioseparatorratings" class="form-group shiny-input-radiogroup shiny-input-container ">
+              <div class="shiny-options-group">
+                <input type="radio" name="radioseparatorratings" value="commaratings" checked><p>Coma</p><br/> 
+                <input type="radio" name="radioseparatorratings" value="semicolonratings"><p>Punto y coma</p><br/> 
+                <input type="radio" name="radioseparatorratings" value="tabratings"><p>Tabulación</p><br/> 
+              </div>
+            </div>
 
             <br/><p><strong>Comillas: </strong></p><br/> 
-            <input type="radio" name="radio-quot-ratings" id="simple-ratings" checked><p>Simples</p><br/> 
-            <input type="radio" name="radio-quot-ratings" id="double-ratings"><p>Dobles</p><br/> 
-            <input type="radio" name="radio-quot-ratings" id="none-ratings"><p>Ninguna</p><br/> 
-
+            <div id="radioquotratings" class="form-group shiny-input-radiogroup shiny-input-container ">
+              <div class="shiny-options-group">
+                <input type="radio" name="radioquotratings" value="simpleratings"><p>Simples</p><br/> 
+                <input type="radio" name="radioquotratings" value="doubleratings" checked><p>Dobles</p><br/> 
+                <input type="radio" name="radioquotratings" value="noneratings"><p>Ninguna</p><br/> 
+              </div>
+            </div>   
+            
             <br/><br/>              
 
           </div>

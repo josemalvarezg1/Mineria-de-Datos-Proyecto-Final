@@ -34,11 +34,45 @@ shinyServer(function(input, output, session) {
 
         output$summary <- renderPrint({
         
-            inspect(head(subreglas))      
+            #inspect(head(subreglas))  
 
-            #Para obtener el consecuente
-            rule <- inspect(subreglas[1]);
-            rule <- rule[3]    
+            dfRules <- as(subreglas, "data.frame")
+            dfRules <- dfRules$rules
+            # Para mostrar el consecuente de la primera subregla
+            splitted <- as.list(strsplit(as.character(dfRules[1]), "=>")[[1]])
+            consequent <- as.character(splitted[2])
+            consequent <- substring(consequent, 3)
+            consequent <- substr(consequent, 1, nchar(consequent)-1) 
+            cat(consequent)   
+            cat("\n") 
+            # Para mostrar el consecuente de la segunda subregla
+            splitted <- as.list(strsplit(as.character(dfRules[2]), "=>")[[1]])
+            consequent <- as.character(splitted[2])
+            consequent <- substring(consequent, 3)
+            consequent <- substr(consequent, 1, nchar(consequent)-1) 
+            cat(consequent)   
+            cat("\n") 
+            # Para mostrar el consecuente de la tercera subregla
+            splitted <- as.list(strsplit(as.character(dfRules[3]), "=>")[[1]])
+            consequent <- as.character(splitted[2])
+            consequent <- substring(consequent, 3)
+            consequent <- substr(consequent, 1, nchar(consequent)-1) 
+            cat(consequent)   
+            cat("\n") 
+            # Para mostrar el consecuente de la cuarta subregla
+            splitted <- as.list(strsplit(as.character(dfRules[4]), "=>")[[1]])
+            consequent <- as.character(splitted[2])
+            consequent <- substring(consequent, 3)
+            consequent <- substr(consequent, 1, nchar(consequent)-1) 
+            cat(consequent)   
+            cat("\n") 
+            # Para mostrar el consecuente de la quinta subregla
+            splitted <- as.list(strsplit(as.character(dfRules[5]), "=>")[[1]])
+            consequent <- as.character(splitted[2])
+            consequent <- substring(consequent, 3)
+            consequent <- substr(consequent, 1, nchar(consequent)-1) 
+            cat(consequent)   
+            cat("\n") 
 
         })
 
@@ -97,15 +131,35 @@ shinyServer(function(input, output, session) {
 
   })
 
-
-
   observeEvent(input$preProcess, {
 
     inFile <- input$fileMovies
-    #if (is.null(inFile)) return(NULL) 
+    if (is.null(inFile)) return(NULL) 
+
+    if (input$includeheadermovies) {
+        h <- TRUE
+    } else {
+        h<-FALSE
+    }
+  
+    if (input$test=="Coma") {
+        separador <- ","
+    } else if(input$test=="Puntoycoma") {
+        separador <- ";"
+    } else if(input$test=="Tabular") {
+        separador <- "\t"
+    }
+
+    if(input$radioquotmovies=="doublemovies"){
+        comilla <- "\""
+    } else if(input$radioquotmovies=="simplemovies"){
+        comilla <- "\'"
+    } else if(input$radioquotmovies=="nonemovies"){
+        comilla <- ""
+    }
 
     #Se lee el dataset de peliculas
-    movies_aux <- read.csv(inFile$datapath, header=TRUE, sep=",")
+    movies_aux <- read.csv(inFile$datapath, header=h, sep=separador,quote = comilla)
 
     #Se identifican las columnas del dataset leido
     colnames(movies_aux) <- c("ID_pelicula", "titulo_pelicula", "generos" )
@@ -150,10 +204,34 @@ shinyServer(function(input, output, session) {
     global$movies <- movies_aux
 
     inFile <- input$fileRatings
-    #if (is.null(inFile)) return(NULL)  
+    if (is.null(inFile)) return(NULL)  
+
+    if (input$includeheaderratings) {
+        h <- TRUE
+    } else {
+        h <- FALSE
+    }
+   
+    if (input$radioseparatorratings=="commaratings") {
+        separador <- ","
+    } else if(input$radioseparatorratings=="semicolonratings") {
+        separador <- ";"
+    } else if(input$radioseparatorratings=="tabratings") {
+        separador <- "\t"
+    }
+
+    #print(separador)
+
+    if(input$radioquotratings=="doubleratings"){
+        comilla <- "\""
+    }else if(input$radioquotratings=="simpleratings"){
+        comilla <- "\'"
+    }else if(input$radioquotratings=="noneratings"){
+        comilla <- ""
+    }
 
     #Se lee el dataset de ratings
-    ratings_aux <- read.csv(inFile$datapath, header=TRUE, sep=",")
+    ratings_aux <- read.csv(inFile$datapath, header=h, sep=separador,quote = comilla)
 
     #Se elimina la columna userId
     #ratings_aux$userId <- NULL

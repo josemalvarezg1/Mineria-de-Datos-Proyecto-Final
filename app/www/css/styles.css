@@ -29,14 +29,17 @@ body {
 	padding-top: 1%;
 	border-radius: 25px;
 	background-color: white;
-	line-height: 45%;
+	line-height: 100%;
 
 }
 
 .styled-div div {
 
-	margin: 2%;
-	padding-bottom: 1%;
+	margin-top: 2%;
+	margin-bottom: 2%;
+	margin-right: 2%;
+	margin-left: 1%;
+	line-height: 70%;
 
 }
 
