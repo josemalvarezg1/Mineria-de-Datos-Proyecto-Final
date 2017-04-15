@@ -103,13 +103,19 @@
 
         });
 
-        $("#fileRatings").change(function() {
+        $("#fileMovies").change(function() {
 
           activatePreProcess();
 
         });
 
         $("#fileRatings").change(function() {
+
+          activatePreProcess();
+
+        });
+
+        $("#fileLinks").change(function() {
 
           activatePreProcess();
 
@@ -119,8 +125,9 @@
 
           var fileMovies = $("#fileMovies").val();
           var fileRatings = $("#fileRatings").val();
+          var fileLinks = $("#fileLinks").val();
 
-          if (fileMovies && fileRatings) {
+          if (fileMovies && fileRatings && fileLinks) {
 
             $("#preProcess").removeAttr("disabled");    
     
@@ -219,7 +226,7 @@
       
     <div class="row">
 
-      <div class="col-md-6">
+      <div class="col-md-4">
 
         <div class="styled-div">
 
@@ -256,7 +263,7 @@
 
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-4">
 
         <div class="styled-div">
 
@@ -282,6 +289,43 @@
                 <input type="radio" name="radioquotratings" value="simpleratings"><p>Simples</p><br/> 
                 <input type="radio" name="radioquotratings" value="doubleratings" checked><p>Dobles</p><br/> 
                 <input type="radio" name="radioquotratings" value="noneratings"><p>Ninguna</p><br/> 
+              </div>
+            </div>   
+            
+            <br/><br/>              
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="col-md-4">
+
+        <div class="styled-div">
+
+          <div>
+
+            <p><strong>Cargar Dataset de Links: (Cambiar a botón de bootstrap)</strong></p><br/> 
+            <input id="fileLinks" type="file"><br/>
+            <input type="checkbox" id="includeheaderlinks" checked><p>Incluir cabecera</p><br/> 
+
+          
+            <br/><p><strong>Separador: </strong></p><br/> 
+            <div id="radioseparatorlinks" class="form-group shiny-input-radiogroup shiny-input-container ">
+              <div class="shiny-options-group">
+                <input type="radio" name="radioseparatorlinks" value="commalinks" checked><p>Coma</p><br/> 
+                <input type="radio" name="radioseparatorlinks" value="semicolonlinks"><p>Punto y coma</p><br/> 
+                <input type="radio" name="radioseparatorlinks" value="tablinks"><p>Tabulación</p><br/> 
+              </div>
+            </div>
+
+            <br/><p><strong>Comillas: </strong></p><br/> 
+            <div id="radioquotlinks" class="form-group shiny-input-radiogroup shiny-input-container ">
+              <div class="shiny-options-group">
+                <input type="radio" name="radioquotlinks" value="simplelinks"><p>Simples</p><br/> 
+                <input type="radio" name="radioquotlinks" value="doublelinks" checked><p>Dobles</p><br/> 
+                <input type="radio" name="radioquotlinks" value="nonelinks"><p>Ninguna</p><br/> 
               </div>
             </div>   
             
@@ -376,59 +420,83 @@
 
     <div class="row">
 
-    <div class="col-sm-3 well">
+      <div class="col-md-12">
 
-        <label>Buscar película por: </label>
-        <select class="form-control" id="selFilter">
-          <option>Título</option>
-          <option>Año</option>
-        </select><br>
+          <label>Buscar película por: </label>
+          <select class="form-control" id="selFilter">
+            <option>Título</option>
+            <option>Año</option>
+          </select><br>
 
-        <div id="names">
-          <label>Título: </label>
-          <input type="text" class="form-control" id="nameMovie"><br>
-        </div>
-
-        <div id="annos">
-          <div id="fechaIni" style="width:42%; float:left;">
-          <label>Desde</label>
-          <select class="form-control" id="sel3"></select>
-          </div>         
-
-          <div id="fechaFin" style="width:42%; float:left; margin-left:10%; margin-bottom:25px; ">
-          <label >Hasta</label>
-          <select class="form-control" id="sel4" ></select>
-          </div> 
-        </div>
-       
-       
-        <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
-        
-    </div>  <!--Aqui termina el buscador-->
-   
-    <div class="col-sm-8">
-    
-      <div class="row">
-        <div class="col-sm-12" style="margin-left:50px ;margin-bottom:50px;">
-          <div class="well">
-              <h2>Titulo pelicula 1</h2>
-              <section >Imagen pelicula 1 y datos<pre id="summary" class="shiny-text-output"></pre></section>
-
+          <div id="names">
+            <label>Título: </label>
+            <input type="text" class="form-control" id="nameMovie" style="width:100%;"><br>
           </div>
-        </div>
-      </div>
+
+          <div id="annos">
+            <div id="fechaIni" style="width:42%; float:left;">
+            <label>Desde</label>
+            <select class="form-control" id="sel3"></select>
+            </div>         
+
+            <div id="fechaFin" style="width:42%; float:left; margin-left:10%; margin-bottom:25px; ">
+            <label >Hasta</label>
+            <select class="form-control" id="sel4" ></select>
+            </div> 
+          </div>
+         
+         
+          <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
+          
+      </div>  <!--Aqui termina el buscador-->
+
+    </div>
+
+    <div class="row" style="margin-left: -60px">
+     
+      <div class="col-md-12">
       
-      <div class="row">
-        <div class="col-sm-12" style="margin-left:50px; margin-bottom:50px; ">
-          <div class="well">
-              <h2>Titulo pelicula 2</h2>
-              <section>Imagen pelicula 2 y datos</section>
+        <div class="row">
+          <div class="col-md-3" style="margin-right: -20px">
+            <div class="well">
 
+                <h2><pre id="summary1" class="shiny-text-output"></pre></h2>
+                <div id="poster1" class="shiny-html-output"></div>
+
+            </div>
           </div>
+
+          <div class="col-md-3" style="margin-right: -20px">
+            <div class="well">
+
+                <h2><pre id="summary2" class="shiny-text-output"></pre></h2>
+                <div id="poster2" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
+          <div class="col-md-3" style="margin-right: -20px">
+            <div class="well">
+
+                <h2><pre id="summary3" class="shiny-text-output"></pre></h2>
+                <div id="poster3" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-3" style="margin-right: -30px">
+            <div class="well">
+
+                <h2><pre id="summary4" class="shiny-text-output"></pre></h2>
+                <div id="poster4" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
         </div>
-      </div>      
-        
-    </div><!--Aqui termina la el col-sm-9-->
+          
+      </div><!--Aqui termina la el col-sm-9-->
 
   </div>
 
