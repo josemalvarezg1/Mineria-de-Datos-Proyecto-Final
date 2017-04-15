@@ -9,7 +9,13 @@ global$ratings <- NULL
 global$rulesByName <- NULL
 global$rulesByYear <- NULL
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
+
+  session$onSessionEnded(function() {
+
+      stopApp()
+
+  })
 
   #Funcion que retorna los ultimos caracteres de un string
   ultimosCaracteres <- function(x, n){
@@ -25,9 +31,6 @@ shinyServer(function(input, output) {
       subreglas = subset(global$rulesByName, subset = lhs %pin% as.character(input$nameMovie))
 
       if (length(subreglas) > 0) {
-        
-        summary(subreglas)
-        inspect(head(subreglas))
 
         output$summary <- renderPrint({
         
@@ -39,6 +42,14 @@ shinyServer(function(input, output) {
 
         })
 
+      } else {
+
+        output$summary <- renderPrint({
+        
+          cat("No se han encontrado reglas para esta película.") 
+
+        })
+               
       }
 
     } else {
@@ -52,18 +63,31 @@ shinyServer(function(input, output) {
         years <- c(years, i)
 
       }
+
+      if (desde == 1902) {
+
+        years <- NULL
+        years <- c(years, 1902)
+
+      }
+
       years <- as.character(years)
 
       subreglas = subset(global$rulesByYear, subset = lhs %in% c(years))
 
       if (length(subreglas) > 0) {
 
-        summary(subreglas)
-        inspect(head(subreglas))
-
         output$summary <- renderPrint({
         
             inspect(head(subreglas))          
+
+        })
+
+      } else {
+
+        output$summary <- renderPrint({
+
+          cat("No se han encontrado reglas para este rango de años.") 
 
         })
 
@@ -72,6 +96,8 @@ shinyServer(function(input, output) {
     }    
 
   })
+
+
 
   observeEvent(input$preProcess, {
 
@@ -138,7 +164,7 @@ shinyServer(function(input, output) {
     colnames(ratings_aux) <- c("userId", "ID_pelicula", "puntuacion", "timestamp" )
 
     global$ratings <- ratings_aux
-
+    session$sendCustomMessage(type = 'data', message = movies_aux$titulo_pelicula)
     rules()
     graph()
 
@@ -150,8 +176,6 @@ shinyServer(function(input, output) {
 
   })
 
- 
-
   rules <- function() {
 
     #Reglas de asociacion
@@ -160,12 +184,9 @@ shinyServer(function(input, output) {
     userrates <- merge(global$ratings,global$movies,by="ID_pelicula")
     userrates2 = as( split(as.vector(userrates$titulo_pelicula), as.vector(userrates$userId)) , "transactions" )
     rules = apriori( userrates2 , parameter=list(supp=0.005, conf=0.5, target="rules", minlen=2, maxlen=2,maxtime=20) )
-    summary(rules)
-    inspect(head(rules))
+
     rules = sort(rules, by ="lift")
     subreglas = subset(rules, subset = lhs %pin% as.character("Angels & Demons"))
-    summary(subreglas)
-    inspect(head(subreglas))
 
     global$rulesByName <- rules
 
@@ -173,12 +194,9 @@ shinyServer(function(input, output) {
     userrates <- merge(global$ratings,global$movies,by="ID_pelicula")
     userrates2 = as( split(as.vector(userrates$anno_pelicula), as.vector(userrates$userId)) , "transactions" )
     rules = apriori( userrates2 , parameter=list(supp=0.005, conf=0.5, target="rules", minlen=2, maxlen=2,maxtime=20) )
-    summary(rules)
-    inspect(head(rules))
+
     rules = sort(rules, by ="lift")
     subreglas = subset(rules, subset = lhs %pin% as.character("1980"))
-    summary(subreglas)
-    inspect(head(subreglas))
 
     global$rulesByYear <- rules
 
