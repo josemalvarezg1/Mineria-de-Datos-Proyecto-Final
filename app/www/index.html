@@ -7,9 +7,10 @@
     <script src="shared/shiny.js" type="text/javascript"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <title>Proyecto Minería de Datos — 25038805_20615639</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">    
     <link rel="stylesheet" type="text/css" href="css/styles.css"/> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Proyecto Minería de Datos — 25038805_20615639</title>
 
     <script type="text/javascript">
 
@@ -47,6 +48,7 @@
       $( document ).ready(function() {
         
         $("#rules").fadeOut();
+        $("#subRulesName").fadeOut();
 
         $("#summary").fadeOut();
         $("#movie1").fadeOut();
@@ -161,6 +163,7 @@
 
           if (lengthRules > 0) {
 
+            $("#subRulesName").fadeIn();
             $("#movie1").fadeIn();
 
             if (lengthRules > 1) {
@@ -256,6 +259,7 @@
 
           } else {
 
+            $("#subRulesName").fadeOut();
             $("#movie1").fadeOut();
             $("#movie2").fadeOut();
             $("#movie3").fadeOut();
@@ -458,8 +462,22 @@
             <div class="row" id="rulesName">
 
               <div class="col-sm-12">
+
+                <h4>Reglas más importantes: </h4>
                 
                 <pre id="inspectRules" class="shiny-text-output">Cargando reglas...</pre>
+
+              </div>
+
+            </div>
+
+            <div class="row" id="subRulesName">
+
+              <div class="col-sm-12">
+
+                <h4>Sub-reglas más importantes de la película seleccionada: </h4>
+                
+                <pre id="inspectSubRules" class="shiny-text-output"></pre>
 
               </div>
 
@@ -475,136 +493,120 @@
 
     </br>
 
-    <div class="styled-div2">
+    <div class="styled-div2" style="margin-bottom:25px;">
+    
 
-    <div class="jumbotron" style="margin-bottom:25px">
+    <div class="jumbotron fondoazul" style="margin-bottom:25px ">
       <div class="container text-center">
-        <h1>App PelículasSugeridas</h1>      
+        <h1><i class="fa fa-film"></i> App Películas Sugeridas</h1>      
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" >
 
-      <div class="col-md-12">
+      <div class="col-sm-3 well" >
 
           <div id="names">
             <label>Busque una película: </label>
             <input type="text" class="form-control" id="nameMovie" style="width:100%;"><br>
+            <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
+            
           </div>         
          
-          <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
           
-      </div>  <!--Aqui termina el buscador-->
+          
+      </div> <!--Termina el buscador--> 
 
-    </div>
+    <div class="col-sm-8" >
+     <div id="summary" class="shiny-html-output"></div> 
+    <!-- <pre id="summary" class="shiny-text-output"></pre>-->
 
-    <div class="row">
-
-      <div class="col-md-12">
-
-        <pre id="summary" class="shiny-text-output"></pre>
-
-      </div>
-
-    </div>
-
-    <div class="row" style="margin-left: -60px">
-     
-      <div class="col-md-12">
-      
-        <div class="row">
-          <div class="col-md-3" style="margin-right: -20px">
-            <div id="movie1" class="well">
-
-                <h2><pre id="summary1" class="shiny-text-output"></pre></h2>
+      <div class="row" >
+          <div class="col-sm-5" >
+          
+            <div class="well " id="movie1" style="padding-bottom:10px;">
+               
+                <div id="summary1" class="shiny-html-output"></div>
                 <div id="poster1" class="shiny-html-output"></div>
 
             </div>
           </div>
 
-          <div class="col-md-3" style="margin-right: -20px">
-            <div id="movie2" class="well">
+          <div class="col-sm-5" >
+            <div class="well " id="movie2" style="padding-bottom:10px;">
 
-                <h2><pre id="summary2" class="shiny-text-output"></pre></h2>
+                <div id="summary2" class="shiny-html-output"></div>
                 <div id="poster2" class="shiny-html-output"></div>
 
             </div>
           </div>
+       </div>
+       <div class="row">   
+          <div class="col-sm-5" >
+            <div class="well " id="movie3" style="padding-bottom:10px;">
 
-          <div class="col-md-3" style="margin-right: -20px">
-            <div id="movie3" class="well">
-
-                <h2><pre id="summary3" class="shiny-text-output"></pre></h2>
+                <div id="summary3" class="shiny-html-output"></div>
                 <div id="poster3" class="shiny-html-output"></div>
 
             </div>
           </div>
 
+           <div class="col-sm-5" >
+            <div class="well " id="movie4" style="padding-bottom:10px;">
 
-          <div class="col-md-3" style="margin-right: -30px">
-            <div id="movie4" class="well">
-
-                <h2><pre id="summary4" class="shiny-text-output"></pre></h2>
+                <div id="summary4" class="shiny-html-output"></div>
                 <div id="poster4" class="shiny-html-output"></div>
 
             </div>
           </div>
-
-        </div>
           
-      </div><!--Aqui termina la el col-sm-9-->
+      </div> <!--termina primer row de peliculas-->    
 
-  </div>
+      <div class="row">
 
-  <div class="row" style="margin-left: -60px">
-     
-      <div class="col-md-12">
-      
-        <div class="row">
-          <div class="col-md-3" style="margin-right: -20px">
-            <div id="movie5" class="well">
+         <div class="col-sm-5">
+            <div class="well " id="movie5" style="padding-bottom:10px;">
 
-                <h2><pre id="summary5" class="shiny-text-output"></pre></h2>
+                <div id="summary5" class="shiny-html-output"></div>
                 <div id="poster5" class="shiny-html-output"></div>
 
             </div>
-          </div>
+          </div> 
 
-          <div class="col-md-3" style="margin-right: -20px">
-            <div id="movie6" class="well">
+          <div class="col-sm-5">
+            <div class="well " id="movie6" style="padding-bottom:10px;">
 
-                <h2><pre id="summary6" class="shiny-text-output"></pre></h2>
+                <div id="summary6" class="shiny-html-output"></div>
                 <div id="poster6" class="shiny-html-output"></div>
 
             </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-5">
+            <div class="well " id="movie7" style="padding-bottom:10px;">
 
-          <div class="col-md-3" style="margin-right: -20px">
-            <div id="movie7" class="well">
-
-                <h2><pre id="summary7" class="shiny-text-output"></pre></h2>
+                <div id="summary7" class="shiny-html-output"></div>
                 <div id="poster7" class="shiny-html-output"></div>
 
             </div>
           </div>
 
+          <div class="col-sm-5" >
+            <div class="well" id="movie8" style="padding-bottom:10px;">
 
-          <div class="col-md-3" style="margin-right: -30px">
-            <div id="movie8" class="well">
-
-                <h2><pre id="summary8" class="shiny-text-output"></pre></h2>
+                <div id="summary8" class="shiny-html-output"></div>
                 <div id="poster8" class="shiny-html-output"></div>
 
             </div>
           </div>
 
-        </div>
-          
-      </div><!--Aqui termina la el col-sm-9-->
 
-  </div>
-
-  </div>
+      </div> <!--Termina segundo row de peliculas-->
+      
+    </div> <!--Termina col-sm-9--> 
+  </div><!--Termina el row del container-->
+</div> <!--Aqui termina el container-->
 
    </div>
    

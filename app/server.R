@@ -34,9 +34,18 @@ shinyServer(function(input, output, session) {
 
       #Validar cantidad        
 
-      output$summary <- renderPrint({          
+      output$summary <- renderText({          
       
-        cat("Películas que pueden gustarte:")   
+        "<h3 style='padding-left:25px;'>Películas que pueden gustarte:</h3>"   
+
+      })
+
+      output$inspectSubRules <- renderPrint({
+
+        options(width = 1500);
+        options(max.print = 200);
+        inspect(head(subreglas));
+        options(max.print = 99999999);
 
       })
 
@@ -53,11 +62,12 @@ shinyServer(function(input, output, session) {
       moviesSubset1 <- movies[grep(consequent1, movies$titulo_pelicula), ]
       themoviedbId1 <- as.character(moviesSubset1[2])
 
-      output$summary1 <- renderPrint({
+      output$summary1 <- renderText({
         
         consequent1 <- substring(consequent1, 2)
         consequent1 <- substr(consequent1, 1, nchar(consequent1)-1) 
-        cat(consequent1)   
+        #cat(consequent1)   
+        paste0("<h4>",consequent1,"</h4>")
 
       })
 
@@ -77,11 +87,12 @@ shinyServer(function(input, output, session) {
         moviesSubset2 <- movies[grep(consequent2, movies$titulo_pelicula), ]
         themoviedbId2 <- as.character(moviesSubset2[2])
 
-        output$summary2 <- renderPrint({
-        
+        output$summary2 <- renderText({
+      
           consequent2 <- substring(consequent2, 2)
           consequent2 <- substr(consequent2, 1, nchar(consequent2)-1) 
-          cat(consequent2)   
+         # cat(consequent2)   
+          paste0("<h4>",consequent2,"</h4>")
 
         })
 
@@ -103,11 +114,12 @@ shinyServer(function(input, output, session) {
         moviesSubset3 <- movies[grep(consequent3, movies$titulo_pelicula), ]
         themoviedbId3 <- as.character(moviesSubset3[2])
 
-        output$summary3 <- renderPrint({
-        
+        output$summary3 <- renderText({
+      
           consequent3 <- substring(consequent3, 2)
           consequent3 <- substr(consequent3, 1, nchar(consequent3)-1) 
-          cat(consequent3)   
+         # cat(consequent3)   
+          paste0("<h4>",consequent3,"</h4>")
 
         })
 
@@ -129,13 +141,14 @@ shinyServer(function(input, output, session) {
         moviesSubset4 <- movies[grep(consequent4, movies$titulo_pelicula), ]
         themoviedbId4 <- as.character(moviesSubset4[2])
 
-        output$summary4 <- renderPrint({
-        
+        output$summary4 <- renderText({
+      
           consequent4 <- substring(consequent4, 2)
           consequent4 <- substr(consequent4, 1, nchar(consequent4)-1) 
-          cat(consequent4)   
+          #cat(consequent4)   
+          paste0("<h4>",consequent4,"</h4>")
 
-        })                        
+        })                         
 
         peliTemp4 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId4, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
         src4 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp4$poster_path)
@@ -155,13 +168,14 @@ shinyServer(function(input, output, session) {
         moviesSubset5 <- movies[grep(consequent5, movies$titulo_pelicula), ]
         themoviedbId5 <- as.character(moviesSubset5[2])
 
-        output$summary5 <- renderPrint({
-        
+        output$summary5 <- renderText({
+      
           consequent5 <- substring(consequent5, 2)
           consequent5 <- substr(consequent5, 1, nchar(consequent5)-1) 
-          cat(consequent5)   
+          # cat(consequent5)   
+          paste0("<h4>",consequent5,"</h4>")
 
-        })                        
+        })                          
 
         peliTemp5 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId5, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
         src5 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp5$poster_path)
@@ -181,13 +195,14 @@ shinyServer(function(input, output, session) {
         moviesSubset6 <- movies[grep(consequent6, movies$titulo_pelicula), ]
         themoviedbId6 <- as.character(moviesSubset6[2])
 
-        output$summary6 <- renderPrint({
-        
+        output$summary6 <- renderText({
+      
           consequent6 <- substring(consequent6, 2)
           consequent6 <- substr(consequent6, 1, nchar(consequent6)-1) 
-          cat(consequent6)   
+          #cat(consequent6)   
+          paste0("<h4>",consequent6,"</h4>")
 
-        })                        
+        })                         
 
         peliTemp6 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId6, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
         src6 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp6$poster_path)
@@ -207,13 +222,14 @@ shinyServer(function(input, output, session) {
         moviesSubset7 <- movies[grep(consequent7, movies$titulo_pelicula), ]
         themoviedbId7 <- as.character(moviesSubset7[2])
 
-        output$summary7 <- renderPrint({
-        
+        output$summary7 <- renderText({
+      
           consequent7 <- substring(consequent7, 2)
           consequent7 <- substr(consequent7, 1, nchar(consequent7)-1) 
-          cat(consequent7)   
+          #cat(consequent7)   
+          paste0("<h4>",consequent7,"</h4>")
 
-        })                        
+        })                       
 
         peliTemp7 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId7, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
         src7 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp7$poster_path)
@@ -233,13 +249,14 @@ shinyServer(function(input, output, session) {
         moviesSubset8 <- movies[grep(consequent8, movies$titulo_pelicula), ]
         themoviedbId8 <- as.character(moviesSubset8[2])
 
-        output$summary8 <- renderPrint({
-        
+        output$summary8 <- renderText({
+      
           consequent8 <- substring(consequent8, 2)
           consequent8 <- substr(consequent8, 1, nchar(consequent8)-1) 
-          cat(consequent8)   
+          #cat(consequent8)   
+          paste0("<h4>",consequent8,"</h4>")
 
-        })                        
+        })                          
 
         peliTemp8 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId8, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
         src8 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp8$poster_path)
@@ -250,9 +267,9 @@ shinyServer(function(input, output, session) {
 
     } else {
 
-      output$summary <- renderPrint({
+      output$summary <- renderText({          
       
-        cat("No se han encontrado películas para ti.")   
+        "<h3 style='padding-left:25px;'>No se han encontrado películas para ti.</h3>"   
 
       })
              
@@ -326,21 +343,6 @@ shinyServer(function(input, output, session) {
     #Eliminando signos en el titulo de cada pelicula
     movies_aux$titulo_pelicula <- gsub("\\?", "", movies_aux$titulo_pelicula)
     movies_aux$titulo_pelicula <- gsub("\\!", "", movies_aux$titulo_pelicula)
-
-    #Los generos de cada pelicula van a ser tratados como un tipo de dato String (cadena de caracteres)
-    movies_aux$generos <- as.character(movies_aux$generos)
-
-    #Se reemplaza el separador | por una coma en los generos de cada pelicula
-    movies_aux$generos <- gsub("\\|", ",", movies_aux$generos)
-
-    #Transformacion de los generos a variables dummies
-    t <- strsplit(movies_aux$generos, split = ",")
-    tags <- unique(str_trim(unlist(t)))
-    df2 <- as.data.frame(Reduce(cbind, lapply(tags, function(i) sapply(t, function(j) +(any(grepl(i, j), na.rm = TRUE))))))
-    names(df2) <- tags
-
-    #Añadir variables dummies al dataframe movies
-    movies_aux <- cbind(movies_aux, df2)
 
     # Eliminar variable generos
     movies_aux$generos <- NULL
@@ -417,13 +419,11 @@ shinyServer(function(input, output, session) {
     #Se lee el dataset de ratings
     ratings_aux <- read.csv(inFile$datapath, header=h, sep=separador,quote = comilla)
 
-    #Se elimina la columna userId
-    #ratings_aux$userId <- NULL
     #Se elimina la columna timestamp
-    #ratings_aux$timestamp <- NULL
+    ratings_aux$timestamp <- NULL
 
     #Se identifican las columnas del dataset leido
-    colnames(ratings_aux) <- c("userId", "ID_pelicula", "puntuacion", "timestamp" )
+    colnames(ratings_aux) <- c("userId", "ID_pelicula", "puntuacion")
 
     global$ratings <- ratings_aux
     session$sendCustomMessage(type = 'data', message = movies_aux$titulo_pelicula)
@@ -457,7 +457,9 @@ shinyServer(function(input, output, session) {
     output$inspectRules <- renderPrint({
 
       options(width = 1500);
-      inspect(head((global$rulesByName)));
+      options(max.print = 200);
+      inspect((global$rulesByName));
+      options(max.print = 99999999);
 
     })
 
