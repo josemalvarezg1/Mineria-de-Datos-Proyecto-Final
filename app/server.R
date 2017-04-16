@@ -28,6 +28,8 @@ shinyServer(function(input, output, session) {
 
     subreglas = subset(global$rulesByName, subset = lhs %pin% paste("^",  as.character(input$nameMovie), "$", sep=""))
 
+    session$sendCustomMessage(type = 'dataSubreglas', message = as.integer(length(subreglas)))
+
     if (length(subreglas) > 0) {
 
       #Validar cantidad        
@@ -64,183 +66,193 @@ shinyServer(function(input, output, session) {
       
       output$poster1<-renderText({paste0('<img src="',src1,'" width="100%">')})
 
-      # Para mostrar el consecuente de la segunda subregla
-      splitted2 <- as.list(strsplit(as.character(dfRules[2]), "=>")[[1]])
-      consequent2 <- as.character(splitted2[2])
-      consequent2 <- substring(consequent2, 3)
-      consequent2 <- substr(consequent2, 1, nchar(consequent2)-1) 
-      consequent2 <- paste("^", consequent2, "$", sep="")
-      moviesSubset2 <- movies[grep(consequent2, movies$titulo_pelicula), ]
-      themoviedbId2 <- as.character(moviesSubset2[2])
+      if (length(subreglas) > 1) {
 
-      output$summary2 <- renderPrint({
-      
-        consequent2 <- substring(consequent2, 2)
+        # Para mostrar el consecuente de la segunda subregla
+        splitted2 <- as.list(strsplit(as.character(dfRules[2]), "=>")[[1]])
+        consequent2 <- as.character(splitted2[2])
+        consequent2 <- substring(consequent2, 3)
         consequent2 <- substr(consequent2, 1, nchar(consequent2)-1) 
-        cat(consequent2)   
+        consequent2 <- paste("^", consequent2, "$", sep="")
+        moviesSubset2 <- movies[grep(consequent2, movies$titulo_pelicula), ]
+        themoviedbId2 <- as.character(moviesSubset2[2])
 
-      })
+        output$summary2 <- renderPrint({
+        
+          consequent2 <- substring(consequent2, 2)
+          consequent2 <- substr(consequent2, 1, nchar(consequent2)-1) 
+          cat(consequent2)   
 
-      peliTemp2 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId2, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src2 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp2$poster_path)
-      
-      output$poster2<-renderText({paste0('<img src="',src2,'" width="100%">')})
-      
-      # Para mostrar el consecuente de la tercera subregla
-      splitted3 <- as.list(strsplit(as.character(dfRules[3]), "=>")[[1]])
-      consequent3 <- as.character(splitted3[2])
-      consequent3 <- substring(consequent3, 3)
-      consequent3 <- substr(consequent3, 1, nchar(consequent3)-1) 
-      consequent3 <- paste("^", consequent3, "$", sep="")
-      moviesSubset3 <- movies[grep(consequent3, movies$titulo_pelicula), ]
-      themoviedbId3 <- as.character(moviesSubset3[2])
+        })
 
-      output$summary3 <- renderPrint({
+        peliTemp2 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId2, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src2 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp2$poster_path)
+        
+        output$poster2<-renderText({paste0('<img src="',src2,'" width="100%">')})
+
+      }
+
+      if (length(subreglas) > 2) {
       
-        consequent3 <- substring(consequent3, 2)
+        # Para mostrar el consecuente de la tercera subregla
+        splitted3 <- as.list(strsplit(as.character(dfRules[3]), "=>")[[1]])
+        consequent3 <- as.character(splitted3[2])
+        consequent3 <- substring(consequent3, 3)
         consequent3 <- substr(consequent3, 1, nchar(consequent3)-1) 
-        cat(consequent3)   
+        consequent3 <- paste("^", consequent3, "$", sep="")
+        moviesSubset3 <- movies[grep(consequent3, movies$titulo_pelicula), ]
+        themoviedbId3 <- as.character(moviesSubset3[2])
 
-      })
+        output$summary3 <- renderPrint({
+        
+          consequent3 <- substring(consequent3, 2)
+          consequent3 <- substr(consequent3, 1, nchar(consequent3)-1) 
+          cat(consequent3)   
 
-      peliTemp3 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId3, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src3 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp3$poster_path)
-      
-      output$poster3<-renderText({paste0('<img src="',src3,'" width="100%">')})
-      
-      # Para mostrar el consecuente de la cuarta subregla
-      splitted4 <- as.list(strsplit(as.character(dfRules[4]), "=>")[[1]])
-      consequent4 <- as.character(splitted4[2])
-      consequent4 <- substring(consequent4, 3)
-      consequent4 <- substr(consequent4, 1, nchar(consequent4)-1) 
-      consequent4 <- paste("^", consequent4, "$", sep="")
-      moviesSubset4 <- movies[grep(consequent4, movies$titulo_pelicula), ]
-      themoviedbId4 <- as.character(moviesSubset4[2])
+        })
 
-      output$summary4 <- renderPrint({
+        peliTemp3 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId3, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src3 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp3$poster_path)
+        
+        output$poster3<-renderText({paste0('<img src="',src3,'" width="100%">')})
+
+      }
+
+      if (length(subreglas) > 3) {
       
-        consequent4 <- substring(consequent4, 2)
+        # Para mostrar el consecuente de la cuarta subregla
+        splitted4 <- as.list(strsplit(as.character(dfRules[4]), "=>")[[1]])
+        consequent4 <- as.character(splitted4[2])
+        consequent4 <- substring(consequent4, 3)
         consequent4 <- substr(consequent4, 1, nchar(consequent4)-1) 
-        cat(consequent4)   
+        consequent4 <- paste("^", consequent4, "$", sep="")
+        moviesSubset4 <- movies[grep(consequent4, movies$titulo_pelicula), ]
+        themoviedbId4 <- as.character(moviesSubset4[2])
 
-      })                        
+        output$summary4 <- renderPrint({
+        
+          consequent4 <- substring(consequent4, 2)
+          consequent4 <- substr(consequent4, 1, nchar(consequent4)-1) 
+          cat(consequent4)   
 
-      peliTemp4 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId4, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src4 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp4$poster_path)
-      
-      output$poster4<-renderText({paste0('<img src="',src4,'" width="100%">')})
+        })                        
 
-      # Para mostrar el consecuente de la quinta subregla
-      splitted5 <- as.list(strsplit(as.character(dfRules[5]), "=>")[[1]])
-      consequent5 <- as.character(splitted5[2])
-      consequent5 <- substring(consequent5, 3)
-      consequent5 <- substr(consequent5, 1, nchar(consequent5)-1) 
-      consequent5 <- paste("^", consequent5, "$", sep="")
-      moviesSubset5 <- movies[grep(consequent5, movies$titulo_pelicula), ]
-      themoviedbId5 <- as.character(moviesSubset5[2])
+        peliTemp4 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId4, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src4 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp4$poster_path)
+        
+        output$poster4<-renderText({paste0('<img src="',src4,'" width="100%">')})
 
-      output$summary5 <- renderPrint({
-      
-        consequent5 <- substring(consequent5, 2)
+      }
+
+      if (length(subreglas) > 4) {
+
+        # Para mostrar el consecuente de la quinta subregla
+        splitted5 <- as.list(strsplit(as.character(dfRules[5]), "=>")[[1]])
+        consequent5 <- as.character(splitted5[2])
+        consequent5 <- substring(consequent5, 3)
         consequent5 <- substr(consequent5, 1, nchar(consequent5)-1) 
-        cat(consequent5)   
+        consequent5 <- paste("^", consequent5, "$", sep="")
+        moviesSubset5 <- movies[grep(consequent5, movies$titulo_pelicula), ]
+        themoviedbId5 <- as.character(moviesSubset5[2])
 
-      })                        
+        output$summary5 <- renderPrint({
+        
+          consequent5 <- substring(consequent5, 2)
+          consequent5 <- substr(consequent5, 1, nchar(consequent5)-1) 
+          cat(consequent5)   
 
-      peliTemp5 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId5, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src5 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp5$poster_path)
-      
-      output$poster5<-renderText({paste0('<img src="',src5,'" width="100%">')})
+        })                        
 
-      # Para mostrar el consecuente de la cuarta subregla
-      splitted6 <- as.list(strsplit(as.character(dfRules[6]), "=>")[[1]])
-      consequent6 <- as.character(splitted6[2])
-      consequent6 <- substring(consequent6, 3)
-      consequent6 <- substr(consequent6, 1, nchar(consequent6)-1) 
-      consequent6 <- paste("^", consequent6, "$", sep="")
-      moviesSubset6 <- movies[grep(consequent6, movies$titulo_pelicula), ]
-      themoviedbId6 <- as.character(moviesSubset6[2])
+        peliTemp5 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId5, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src5 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp5$poster_path)
+        
+        output$poster5<-renderText({paste0('<img src="',src5,'" width="100%">')})
 
-      output$summary6 <- renderPrint({
-      
-        consequent6 <- substring(consequent6, 2)
+      }
+
+      if (length(subreglas) > 5) {
+
+        # Para mostrar el consecuente de la cuarta subregla
+        splitted6 <- as.list(strsplit(as.character(dfRules[6]), "=>")[[1]])
+        consequent6 <- as.character(splitted6[2])
+        consequent6 <- substring(consequent6, 3)
         consequent6 <- substr(consequent6, 1, nchar(consequent6)-1) 
-        cat(consequent6)   
+        consequent6 <- paste("^", consequent6, "$", sep="")
+        moviesSubset6 <- movies[grep(consequent6, movies$titulo_pelicula), ]
+        themoviedbId6 <- as.character(moviesSubset6[2])
 
-      })                        
+        output$summary6 <- renderPrint({
+        
+          consequent6 <- substring(consequent6, 2)
+          consequent6 <- substr(consequent6, 1, nchar(consequent6)-1) 
+          cat(consequent6)   
 
-      peliTemp6 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId6, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src6 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp6$poster_path)
-      
-      output$poster6<-renderText({paste0('<img src="',src6,'" width="100%">')})
+        })                        
 
-      # Para mostrar el consecuente de la cuarta subregla
-      splitted7 <- as.list(strsplit(as.character(dfRules[7]), "=>")[[1]])
-      consequent7 <- as.character(splitted7[2])
-      consequent7 <- substring(consequent7, 3)
-      consequent7 <- substr(consequent7, 1, nchar(consequent7)-1) 
-      consequent7 <- paste("^", consequent7, "$", sep="")
-      moviesSubset7 <- movies[grep(consequent7, movies$titulo_pelicula), ]
-      themoviedbId7 <- as.character(moviesSubset7[2])
+        peliTemp6 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId6, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src6 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp6$poster_path)
+        
+        output$poster6<-renderText({paste0('<img src="',src6,'" width="100%">')})
 
-      output$summary7 <- renderPrint({
-      
-        consequent7 <- substring(consequent7, 2)
+      }
+
+      if (length(subreglas) > 6) {
+
+        # Para mostrar el consecuente de la cuarta subregla
+        splitted7 <- as.list(strsplit(as.character(dfRules[7]), "=>")[[1]])
+        consequent7 <- as.character(splitted7[2])
+        consequent7 <- substring(consequent7, 3)
         consequent7 <- substr(consequent7, 1, nchar(consequent7)-1) 
-        cat(consequent7)   
+        consequent7 <- paste("^", consequent7, "$", sep="")
+        moviesSubset7 <- movies[grep(consequent7, movies$titulo_pelicula), ]
+        themoviedbId7 <- as.character(moviesSubset7[2])
 
-      })                        
+        output$summary7 <- renderPrint({
+        
+          consequent7 <- substring(consequent7, 2)
+          consequent7 <- substr(consequent7, 1, nchar(consequent7)-1) 
+          cat(consequent7)   
 
-      peliTemp7 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId7, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src7 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp7$poster_path)
-      
-      output$poster7<-renderText({paste0('<img src="',src7,'" width="100%">')})
+        })                        
 
-      # Para mostrar el consecuente de la cuarta subregla
-      splitted8 <- as.list(strsplit(as.character(dfRules[8]), "=>")[[1]])
-      consequent8 <- as.character(splitted8[2])
-      consequent8 <- substring(consequent8, 3)
-      consequent8 <- substr(consequent8, 1, nchar(consequent8)-1) 
-      consequent8 <- paste("^", consequent8, "$", sep="")
-      moviesSubset8 <- movies[grep(consequent8, movies$titulo_pelicula), ]
-      themoviedbId8 <- as.character(moviesSubset8[2])
+        peliTemp7 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId7, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src7 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp7$poster_path)
+        
+        output$poster7<-renderText({paste0('<img src="',src7,'" width="100%">')})
 
-      output$summary8 <- renderPrint({
-      
-        consequent8 <- substring(consequent8, 2)
+      }
+
+      if (length(subreglas) > 7) {
+
+        # Para mostrar el consecuente de la cuarta subregla
+        splitted8 <- as.list(strsplit(as.character(dfRules[8]), "=>")[[1]])
+        consequent8 <- as.character(splitted8[2])
+        consequent8 <- substring(consequent8, 3)
         consequent8 <- substr(consequent8, 1, nchar(consequent8)-1) 
-        cat(consequent8)   
+        consequent8 <- paste("^", consequent8, "$", sep="")
+        moviesSubset8 <- movies[grep(consequent8, movies$titulo_pelicula), ]
+        themoviedbId8 <- as.character(moviesSubset8[2])
 
-      })                        
+        output$summary8 <- renderPrint({
+        
+          consequent8 <- substring(consequent8, 2)
+          consequent8 <- substr(consequent8, 1, nchar(consequent8)-1) 
+          cat(consequent8)   
 
-      peliTemp8 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId8, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
-      src8 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp8$poster_path)
-      
-      output$poster8<-renderText({paste0('<img src="',src8,'" width="100%">')})
+        })                        
+
+        peliTemp8 <- fromJSON(paste("https://api.themoviedb.org/3/movie/", themoviedbId8, "?api_key=3c9a39604750b33b3e006c0d54a11e55", sep=""))
+        src8 <- paste0("https://image.tmdb.org/t/p/w500",peliTemp8$poster_path)
+        
+        output$poster8<-renderText({paste0('<img src="',src8,'" width="100%">')})
+
+      }
 
     } else {
 
       output$summary <- renderPrint({
       
-        cat("No se han encontrado películas para ti.") 
-
-        output$summary1 <- renderPrint({cat("")})
-        output$summary2 <- renderPrint({cat("")})
-        output$summary3 <- renderPrint({cat("")})
-        output$summary4 <- renderPrint({cat("")})
-        output$summary5 <- renderPrint({cat("")})
-        output$summary6 <- renderPrint({cat("")})
-        output$summary7 <- renderPrint({cat("")})
-        output$summary8 <- renderPrint({cat("")})
-
-        output$poster1<-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster2<-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster3<-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster4<-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster5-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster6<-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster7<-renderText({paste0('<img src="" width="0%" height="0%">')})
-        output$poster8<-renderText({paste0('<img src="" width="0%" height="0%">')})
+        cat("No se han encontrado películas para ti.")   
 
       })
              
@@ -445,9 +457,7 @@ shinyServer(function(input, output, session) {
     output$inspectRules <- renderPrint({
 
       options(width = 1500);
-      options(max.print = 250);
-      inspect((global$rulesByName));
-      options(max.print = 99999999);
+      inspect(head((global$rulesByName)));
 
     })
 

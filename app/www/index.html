@@ -48,6 +48,16 @@
         
         $("#rules").fadeOut();
 
+        $("#summary").fadeOut();
+        $("#movie1").fadeOut();
+        $("#movie2").fadeOut();
+        $("#movie3").fadeOut();
+        $("#movie4").fadeOut();
+        $("#movie5").fadeOut();
+        $("#movie6").fadeOut();
+        $("#movie7").fadeOut();
+        $("#movie8").fadeOut();
+
         $("#button-rules").click(function() {
 
           $("#rules").fadeToggle("slow");
@@ -142,6 +152,126 @@
             }
 
           }
+
+        });
+
+        function showMovies(lengthRules) {
+
+          $("#summary").fadeIn();
+
+          if (lengthRules > 0) {
+
+            $("#movie1").fadeIn();
+
+            if (lengthRules > 1) {
+
+              $("#movie2").fadeIn();
+
+              if (lengthRules > 2) {
+
+                $("#movie3").fadeIn();
+
+                if (lengthRules > 3) {
+
+                  $("#movie4").fadeIn();
+
+                  if (lengthRules > 4) {
+
+                    $("#movie5").fadeIn();
+
+                    if (lengthRules > 5) {
+
+                      $("#movie6").fadeIn();
+
+                      if (lengthRules > 6) {
+
+                        $("#movie7").fadeIn();
+
+                        if (lengthRules > 7) {
+
+                          $("#movie8").fadeIn();
+
+                        } else {
+
+                          $("#movie8").fadeOut();
+
+                        }
+
+                      } else {
+
+                        $("#movie7").fadeOut();
+                        $("#movie8").fadeOut();
+
+                      }
+
+                    } else {
+
+                      $("#movie6").fadeOut();
+                      $("#movie7").fadeOut();
+                      $("#movie8").fadeOut();
+
+                    }
+
+                  } else {
+
+                    $("#movie5").fadeOut();
+                    $("#movie6").fadeOut();
+                    $("#movie7").fadeOut();
+                    $("#movie8").fadeOut();
+
+                  }
+
+                } else {
+
+                  $("#movie4").fadeOut();
+                  $("#movie5").fadeOut();
+                  $("#movie6").fadeOut();
+                  $("#movie7").fadeOut();
+                  $("#movie8").fadeOut();
+
+                }
+
+              } else {
+
+                $("#movie3").fadeOut();
+                $("#movie4").fadeOut();
+                $("#movie5").fadeOut();
+                $("#movie6").fadeOut();
+                $("#movie7").fadeOut();
+                $("#movie8").fadeOut();
+
+              }
+
+            } else {
+
+              $("#movie2").fadeOut();
+              $("#movie3").fadeOut();
+              $("#movie4").fadeOut();
+              $("#movie5").fadeOut();
+              $("#movie6").fadeOut();
+              $("#movie7").fadeOut();
+              $("#movie8").fadeOut();
+
+            }
+
+          } else {
+
+            $("#movie1").fadeOut();
+            $("#movie2").fadeOut();
+            $("#movie3").fadeOut();
+            $("#movie4").fadeOut();
+            $("#movie5").fadeOut();
+            $("#movie6").fadeOut();
+            $("#movie7").fadeOut();
+            $("#movie8").fadeOut();
+
+          }
+
+        }
+
+        Shiny.addCustomMessageHandler("dataSubreglas", function(message) {
+
+          showMovies(message);
 
         });
 
@@ -384,7 +514,7 @@
       
         <div class="row">
           <div class="col-md-3" style="margin-right: -20px">
-            <div class="well">
+            <div id="movie1" class="well">
 
                 <h2><pre id="summary1" class="shiny-text-output"></pre></h2>
                 <div id="poster1" class="shiny-html-output"></div>
@@ -393,7 +523,7 @@
           </div>
 
           <div class="col-md-3" style="margin-right: -20px">
-            <div class="well">
+            <div id="movie2" class="well">
 
                 <h2><pre id="summary2" class="shiny-text-output"></pre></h2>
                 <div id="poster2" class="shiny-html-output"></div>
@@ -402,7 +532,7 @@
           </div>
 
           <div class="col-md-3" style="margin-right: -20px">
-            <div class="well">
+            <div id="movie3" class="well">
 
                 <h2><pre id="summary3" class="shiny-text-output"></pre></h2>
                 <div id="poster3" class="shiny-html-output"></div>
@@ -412,7 +542,7 @@
 
 
           <div class="col-md-3" style="margin-right: -30px">
-            <div class="well">
+            <div id="movie4" class="well">
 
                 <h2><pre id="summary4" class="shiny-text-output"></pre></h2>
                 <div id="poster4" class="shiny-html-output"></div>
@@ -432,7 +562,7 @@
       
         <div class="row">
           <div class="col-md-3" style="margin-right: -20px">
-            <div class="well">
+            <div id="movie5" class="well">
 
                 <h2><pre id="summary5" class="shiny-text-output"></pre></h2>
                 <div id="poster5" class="shiny-html-output"></div>
@@ -441,7 +571,7 @@
           </div>
 
           <div class="col-md-3" style="margin-right: -20px">
-            <div class="well">
+            <div id="movie6" class="well">
 
                 <h2><pre id="summary6" class="shiny-text-output"></pre></h2>
                 <div id="poster6" class="shiny-html-output"></div>
@@ -450,7 +580,7 @@
           </div>
 
           <div class="col-md-3" style="margin-right: -20px">
-            <div class="well">
+            <div id="movie7" class="well">
 
                 <h2><pre id="summary7" class="shiny-text-output"></pre></h2>
                 <div id="poster7" class="shiny-html-output"></div>
@@ -460,7 +590,7 @@
 
 
           <div class="col-md-3" style="margin-right: -30px">
-            <div class="well">
+            <div id="movie8" class="well">
 
                 <h2><pre id="summary8" class="shiny-text-output"></pre></h2>
                 <div id="poster8" class="shiny-html-output"></div>
