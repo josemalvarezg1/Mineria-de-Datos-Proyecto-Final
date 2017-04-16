@@ -54,30 +54,6 @@
 
         });
 
-        $("#selFilter").change(function() {
-
-          if ($('#selFilter').find(":selected").text() == "Título") {
-
-            $("#annos").hide();
-            $("#names").show();
-            $("#sugerir").attr("disabled", true);
-            $("#nameMovie").val("");
-
-          } else {
-
-            $("#names").hide();
-            $("#annos").show();
-
-            if (tags.length > 0) {
-
-              $("#sugerir").removeAttr("disabled"); 
-
-            }
-
-          }
-
-        });
-
         $("#fileMovies").change(function() {
 
           activatePreProcess();
@@ -381,33 +357,24 @@
 
       <div class="col-md-12">
 
-          <label>Buscar película por: </label>
-          <select class="form-control" id="selFilter">
-            <option>Título</option>
-            <option>Año</option>
-          </select><br>
-
           <div id="names">
-            <label>Título: </label>
+            <label>Busque una película: </label>
             <input type="text" class="form-control" id="nameMovie" style="width:100%;"><br>
-          </div>
-
-          <div id="annos">
-            <div id="fechaIni" style="width:42%; float:left;">
-            <label>Desde</label>
-            <select class="form-control" id="sel3"></select>
-            </div>         
-
-            <div id="fechaFin" style="width:42%; float:left; margin-left:10%; margin-bottom:25px; ">
-            <label >Hasta</label>
-            <select class="form-control" id="sel4" ></select>
-            </div> 
-          </div>
-         
+          </div>         
          
           <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
           
       </div>  <!--Aqui termina el buscador-->
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <pre id="summary" class="shiny-text-output"></pre>
+
+      </div>
 
     </div>
 
@@ -449,6 +416,54 @@
 
                 <h2><pre id="summary4" class="shiny-text-output"></pre></h2>
                 <div id="poster4" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
+        </div>
+          
+      </div><!--Aqui termina la el col-sm-9-->
+
+  </div>
+
+  <div class="row" style="margin-left: -60px">
+     
+      <div class="col-md-12">
+      
+        <div class="row">
+          <div class="col-md-3" style="margin-right: -20px">
+            <div class="well">
+
+                <h2><pre id="summary5" class="shiny-text-output"></pre></h2>
+                <div id="poster5" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
+          <div class="col-md-3" style="margin-right: -20px">
+            <div class="well">
+
+                <h2><pre id="summary6" class="shiny-text-output"></pre></h2>
+                <div id="poster6" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
+          <div class="col-md-3" style="margin-right: -20px">
+            <div class="well">
+
+                <h2><pre id="summary7" class="shiny-text-output"></pre></h2>
+                <div id="poster7" class="shiny-html-output"></div>
+
+            </div>
+          </div>
+
+
+          <div class="col-md-3" style="margin-right: -30px">
+            <div class="well">
+
+                <h2><pre id="summary8" class="shiny-text-output"></pre></h2>
+                <div id="poster8" class="shiny-html-output"></div>
 
             </div>
           </div>
