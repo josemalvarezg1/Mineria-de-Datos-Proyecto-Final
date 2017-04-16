@@ -46,11 +46,17 @@
 
       $( document ).ready(function() {
         
-        $("#annos").hide();
+        $("#rules").fadeOut();
 
-        $("#button-rules").click(function(){
+        $("#button-rules").click(function() {
 
           $("#rules").fadeToggle("slow");
+
+        });
+
+        $("#preProcess").click(function() {
+
+          $("#rules").fadeIn("slow");
 
         });
 
@@ -183,7 +189,7 @@
 
           <div>
 
-            <p><strong>Cargar Dataset de Películas: (Cambiar a botón de bootstrap)</strong></p><br/> 
+            <p><strong>Cargar Dataset de Películas: </strong></p><br/> 
             <input id="fileMovies" type="file"><br/>
             <input type="checkbox" id="includeheadermovies" checked><p>Incluir cabecera</p><br/> 
 
@@ -220,7 +226,7 @@
 
           <div>
 
-            <p><strong>Cargar Dataset de Ratings: (Cambiar a botón de bootstrap)</strong></p><br/> 
+            <p><strong>Cargar Dataset de Ratings: </strong></p><br/> 
             <input id="fileRatings" type="file"><br/>
             <input type="checkbox" id="includeheaderratings" checked><p>Incluir cabecera</p><br/> 
 
@@ -257,7 +263,7 @@
 
           <div>
 
-            <p><strong>Cargar Dataset de Links: (Cambiar a botón de bootstrap)</strong></p><br/> 
+            <p><strong>Cargar Dataset de Links: </strong></p><br/> 
             <input id="fileLinks" type="file"><br/>
             <input type="checkbox" id="includeheaderlinks" checked><p>Incluir cabecera</p><br/> 
 
@@ -321,15 +327,9 @@
 
             <div class="row" id="rulesName">
 
-              <div class="col-sm-6">
+              <div class="col-sm-12">
                 
-                <div id="plot1" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
-
-              </div>
-
-              <div class="col-sm-6" style="max-height: 500px; margin-left: -50px;">
-                
-                <div id="plot2" class="shiny-plot-output" style="width: 90%; height: 50%"></div>
+                <pre id="inspectRules" class="shiny-text-output">Cargando reglas...</pre>
 
               </div>
 

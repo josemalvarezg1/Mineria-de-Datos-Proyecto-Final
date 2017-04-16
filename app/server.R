@@ -51,7 +51,6 @@ shinyServer(function(input, output, session) {
       moviesSubset1 <- movies[grep(consequent1, movies$titulo_pelicula), ]
       themoviedbId1 <- as.character(moviesSubset1[2])
 
-
       output$summary1 <- renderPrint({
         
         consequent1 <- substring(consequent1, 2)
@@ -312,6 +311,10 @@ shinyServer(function(input, output, session) {
       string <- paste(string,"- ",yearMovie, sep="")
     }  ) 
 
+    #Eliminando signos en el titulo de cada pelicula
+    movies_aux$titulo_pelicula <- gsub("\\?", "", movies_aux$titulo_pelicula)
+    movies_aux$titulo_pelicula <- gsub("\\!", "", movies_aux$titulo_pelicula)
+
     #Los generos de cada pelicula van a ser tratados como un tipo de dato String (cadena de caracteres)
     movies_aux$generos <- as.character(movies_aux$generos)
 
@@ -348,8 +351,6 @@ shinyServer(function(input, output, session) {
     } else if(input$radioseparatorlinks=="tablinks") {
         separador <- "\t"
     }
-
-    #print(separador)
 
     if(input$radioquotlinks=="doublelinks"){
         comilla <- "\""
@@ -392,8 +393,6 @@ shinyServer(function(input, output, session) {
     } else if(input$radioseparatorratings=="tabratings") {
         separador <- "\t"
     }
-
-    #print(separador)
 
     if(input$radioquotratings=="doubleratings"){
         comilla <- "\""
@@ -443,16 +442,12 @@ shinyServer(function(input, output, session) {
   
   graph <- function() {
 
-    output$plot1 <- renderPlot({
+    output$inspectRules <- renderPrint({
 
-      #Colocar un boxplot o inspect aqui
-      plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
-
-    })
-
-    output$plot2 <- renderPlot({
-    
-      plot(head(sort(global$rulesByName, by="lift"), 30), main="30 reglas más importantes.");
+      options(width = 1500);
+      options(max.print = 250);
+      inspect((global$rulesByName));
+      options(max.print = 99999999);
 
     })
 
