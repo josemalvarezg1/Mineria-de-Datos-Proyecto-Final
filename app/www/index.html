@@ -14,16 +14,21 @@
 
     <script type="text/javascript">
 
+      // Se inicializa el arreglo que tendra todos los titulos de las peliculas
       var tags = [];
+
+      // Se reciben todas los titulos de las peliculas
       Shiny.addCustomMessageHandler("data", function(message) {
 
           tags = (message);
 
+          // Se almacenan todos los titulos sin repetirse
           var uniqueTags = [];
           $.each(tags, function(i, el){
               if($.inArray(el, uniqueTags) === -1) uniqueTags.push(el);
           });
 
+          // El campo de entrada va a permitir autocompletar el titulo de cada pelicula
           $( "#nameMovie" ).autocomplete({
 
             maxResults: 5,
@@ -35,6 +40,7 @@
             },
             minLength: 1,
             autoFocus: true,
+            // Cuando se seleccione una pelicula autocompletada se va a activar el boton de "Sugerir Peliculas"
             select: function() {
 
               $("#sugerir").removeAttr("disabled");
@@ -47,9 +53,11 @@
 
       $( document ).ready(function() {
         
+        // Se ocultan las impresiones de reglas y subreglas
         $("#rules").fadeOut();
         $("#subRulesName").fadeOut();
 
+        // Se ocultan las divisiones donde se encontraran las peliculas recomendadas
         $("#summary").fadeOut();
         $("#movie1").fadeOut();
         $("#movie2").fadeOut();
@@ -60,42 +68,49 @@
         $("#movie7").fadeOut();
         $("#movie8").fadeOut();
 
+        // Se muestran/ocultan las reglas y subreglas si se presiona el boton "Mostrar/Ocultar"
         $("#button-rules").click(function() {
 
           $("#rules").fadeToggle("slow");
 
         });
 
+        // Se muestran las reglas si se presiona el boton "Pre-procesar y generar reglas"
         $("#preProcess").click(function() {
 
           $("#rules").fadeIn("slow");
 
         });
 
+        // Se llama a la funcion activatePreProcess() si se carga un dataset de peliculas
         $("#fileMovies").change(function() {
 
           activatePreProcess();
 
         });
 
+        // Se llama a la funcion activatePreProcess() si se carga un dataset de ratings
         $("#fileRatings").change(function() {
 
           activatePreProcess();
 
         });
 
+        // Se llama a la funcion activatePreProcess() si se carga un dataset de links
         $("#fileLinks").change(function() {
 
           activatePreProcess();
 
         });
 
+        // Funcion que activa el boton de "Pre-procesar y generar reglas"
         function activatePreProcess() {
 
           var fileMovies = $("#fileMovies").val();
           var fileRatings = $("#fileRatings").val();
           var fileLinks = $("#fileLinks").val();
 
+          // Se valida que se hayan cargado los 3 datasets para asi poder activar el boton
           if (fileMovies && fileRatings && fileLinks) {
 
             $("#preProcess").removeAttr("disabled");    
@@ -108,59 +123,25 @@
 
         }
 
-        $("#sel3").change(function() {
-
-          validateDates();
-
-        });
-
-        $("#sel4").change(function() {
-
-          validateDates();
-
-        });
-
-        function validateDates() {
-
-          var desde = $("#sel3").val();
-          var hasta = $("#sel4").val();
-
-          if (desde > hasta) {
-
-            $("#sel4").val($("#sel3").val());
-
-          }
-
-          if (desde == 1902) {
-
-            $("#sel4").val(1902);
-
-          }
-
-        }
-
+        // Funcion que se ejecuta cada vez que cambia, se pega algun contenido o se escriba sobre el campo de entrada del titulo
         $('#nameMovie').bind("change paste keyup", function() {
 
-          if ($('#selFilter').find(":selected").text() == "Título") {
-
+            // Se desactiva el boton de "Sugerir Pelicula" si se introduce una pelicula no existente en el dataset
             if (tags.indexOf($("#nameMovie").val()) > -1) {
 
               $("#sugerir").removeAttr("disabled"); 
 
-            } else {
-
-              $("#sugerir").attr("disabled", true);
-
             }
-
-          }
 
         });
 
+        // Funcion que muestra los titulos y las imagenes de las peliculas recomendadas
         function showMovies(lengthRules) {
 
+          // Se muestra el mensaje que indica si se generaron sub-reglas o no
           $("#summary").fadeIn();
 
+          // Se valida que existan n sub-reglas para mostrar las n peliculas recomendadas por pantalla
           if (lengthRules > 0) {
 
             $("#subRulesName").fadeIn();
@@ -273,6 +254,7 @@
 
         }
 
+        // Funcion que recibe el numero de subreglas generadas y llama a la funcion showMovies con ese parametro
         Shiny.addCustomMessageHandler("dataSubreglas", function(message) {
 
           showMovies(message);
@@ -287,199 +269,139 @@
  
   <body>
 
-  <div class="container-fluid">
+    <div class="container-fluid">
 
-    <div class="row ">
+      <div class="row ">
 
-      <div class="col-md-12">
+        <div class="col-md-12">
 
-        <div id="header">
+          <div id="header">
 
-          <h4>
-          <div id="caption" class="shiny-text-output"></div>
-            <p>Universidad Central de Venezuela</p>
-            <p>Escuela de Computación</p>
-            <p>Minería de Datos</p>
-            <p>José Manuel Alvarez — CI 25038805</p>
-            <p>Alvaro Sanabria — CI 20615639</p>
-            <p><strong>Proyecto final: </strong>Análisis de Reglas de Asociación</p>
-          </h4>
+            <h4>
+            <div id="caption" class="shiny-text-output"></div>
+              <p>Universidad Central de Venezuela</p>
+              <p>Escuela de Computación</p>
+              <p>Minería de Datos</p>
+              <p>José Manuel Alvarez — CI 25038805</p>
+              <p>Alvaro Sanabria — CI 20615639</p>
+              <p><strong>Proyecto final: </strong>Análisis de Reglas de Asociación</p>
+            </h4>
+
+          </div>
 
         </div>
 
-      </div>
+      </div> 
 
-    </div> 
+    </div>
 
-  </div>
+    <div class="container-fluid">
+        
+      <div class="row">
 
-  <div class="container-fluid">
-      
-    <div class="row">
+        <div class="col-md-4">
 
-      <div class="col-md-4">
+          <div class="styled-div">
 
-        <div class="styled-div">
+            <div>
 
-          <div>
+              <p><strong>Cargar Dataset de Películas: </strong></p><br/> 
+              <input id="fileMovies" type="file"><br/>
+              <input type="checkbox" id="includeheadermovies" checked><p>Incluir cabecera</p><br/> 
 
-            <p><strong>Cargar Dataset de Películas: </strong></p><br/> 
-            <input id="fileMovies" type="file"><br/>
-            <input type="checkbox" id="includeheadermovies" checked><p>Incluir cabecera</p><br/> 
-
-          
-            <br/><p><strong>Separador: </strong></p><br/> 
-            <div id="test" class="form-group shiny-input-radiogroup shiny-input-container ">
-              <div class="shiny-options-group">
-                <input type="radio" name="test" value="Coma" checked><p>Coma</p><br/> 
-                <input type="radio" name="test" value="Puntoycoma"><p>Punto y coma</p><br/> 
-                <input type="radio" name="test" value="Tabular"><p>Tabulación</p><br/> 
+            
+              <br/><p><strong>Separador: </strong></p><br/> 
+              <div id="test" class="form-group shiny-input-radiogroup shiny-input-container ">
+                <div class="shiny-options-group">
+                  <input type="radio" name="test" value="Coma" checked><p>Coma</p><br/> 
+                  <input type="radio" name="test" value="Puntoycoma"><p>Punto y coma</p><br/> 
+                  <input type="radio" name="test" value="Tabular"><p>Tabulación</p><br/> 
+                </div>
               </div>
+
+              <br/><p><strong>Comillas: </strong></p><br/> 
+              <div id="radioquotmovies" class="form-group shiny-input-radiogroup shiny-input-container ">
+                <div class="shiny-options-group">
+                  <input type="radio" name="radioquotmovies" value="simplemovies"><p>Simples</p><br/> 
+                  <input type="radio" name="radioquotmovies" value="doublemovies" checked><p>Dobles</p><br/> 
+                  <input type="radio" name="radioquotmovies" value="nonemovies"><p>Ninguna</p><br/> 
+                </div>
+              </div>
+                
+              <br/><br/> 
+
             </div>
 
-            <br/><p><strong>Comillas: </strong></p><br/> 
-            <div id="radioquotmovies" class="form-group shiny-input-radiogroup shiny-input-container ">
-              <div class="shiny-options-group">
-                <input type="radio" name="radioquotmovies" value="simplemovies"><p>Simples</p><br/> 
-                <input type="radio" name="radioquotmovies" value="doublemovies" checked><p>Dobles</p><br/> 
-                <input type="radio" name="radioquotmovies" value="nonemovies"><p>Ninguna</p><br/> 
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+          <div class="styled-div">
+
+            <div>
+
+              <p><strong>Cargar Dataset de Ratings: </strong></p><br/> 
+              <input id="fileRatings" type="file"><br/>
+              <input type="checkbox" id="includeheaderratings" checked><p>Incluir cabecera</p><br/> 
+            
+              <br/><p><strong>Separador: </strong></p><br/> 
+              <div id="radioseparatorratings" class="form-group shiny-input-radiogroup shiny-input-container ">
+                <div class="shiny-options-group">
+                  <input type="radio" name="radioseparatorratings" value="commaratings" checked><p>Coma</p><br/> 
+                  <input type="radio" name="radioseparatorratings" value="semicolonratings"><p>Punto y coma</p><br/> 
+                  <input type="radio" name="radioseparatorratings" value="tabratings"><p>Tabulación</p><br/> 
+                </div>
               </div>
-            </div>
+
+              <br/><p><strong>Comillas: </strong></p><br/> 
+              <div id="radioquotratings" class="form-group shiny-input-radiogroup shiny-input-container ">
+                <div class="shiny-options-group">
+                  <input type="radio" name="radioquotratings" value="simpleratings"><p>Simples</p><br/> 
+                  <input type="radio" name="radioquotratings" value="doubleratings" checked><p>Dobles</p><br/> 
+                  <input type="radio" name="radioquotratings" value="noneratings"><p>Ninguna</p><br/> 
+                </div>
+              </div>   
               
-            <br/><br/> 
+              <br/><br/>              
+
+            </div>
 
           </div>
 
         </div>
 
-      </div>
+        <div class="col-md-4">
 
-      <div class="col-md-4">
+          <div class="styled-div">
 
-        <div class="styled-div">
+            <div>
 
-          <div>
+              <p><strong>Cargar Dataset de Links: </strong></p><br/> 
+              <input id="fileLinks" type="file"><br/>
+              <input type="checkbox" id="includeheaderlinks" checked><p>Incluir cabecera</p><br/> 
 
-            <p><strong>Cargar Dataset de Ratings: </strong></p><br/> 
-            <input id="fileRatings" type="file"><br/>
-            <input type="checkbox" id="includeheaderratings" checked><p>Incluir cabecera</p><br/> 
-
-          
-            <br/><p><strong>Separador: </strong></p><br/> 
-            <div id="radioseparatorratings" class="form-group shiny-input-radiogroup shiny-input-container ">
-              <div class="shiny-options-group">
-                <input type="radio" name="radioseparatorratings" value="commaratings" checked><p>Coma</p><br/> 
-                <input type="radio" name="radioseparatorratings" value="semicolonratings"><p>Punto y coma</p><br/> 
-                <input type="radio" name="radioseparatorratings" value="tabratings"><p>Tabulación</p><br/> 
-              </div>
-            </div>
-
-            <br/><p><strong>Comillas: </strong></p><br/> 
-            <div id="radioquotratings" class="form-group shiny-input-radiogroup shiny-input-container ">
-              <div class="shiny-options-group">
-                <input type="radio" name="radioquotratings" value="simpleratings"><p>Simples</p><br/> 
-                <input type="radio" name="radioquotratings" value="doubleratings" checked><p>Dobles</p><br/> 
-                <input type="radio" name="radioquotratings" value="noneratings"><p>Ninguna</p><br/> 
-              </div>
-            </div>   
             
-            <br/><br/>              
-
-          </div>
-
-        </div>
-
-      </div>
-
-      <div class="col-md-4">
-
-        <div class="styled-div">
-
-          <div>
-
-            <p><strong>Cargar Dataset de Links: </strong></p><br/> 
-            <input id="fileLinks" type="file"><br/>
-            <input type="checkbox" id="includeheaderlinks" checked><p>Incluir cabecera</p><br/> 
-
-          
-            <br/><p><strong>Separador: </strong></p><br/> 
-            <div id="radioseparatorlinks" class="form-group shiny-input-radiogroup shiny-input-container ">
-              <div class="shiny-options-group">
-                <input type="radio" name="radioseparatorlinks" value="commalinks" checked><p>Coma</p><br/> 
-                <input type="radio" name="radioseparatorlinks" value="semicolonlinks"><p>Punto y coma</p><br/> 
-                <input type="radio" name="radioseparatorlinks" value="tablinks"><p>Tabulación</p><br/> 
-              </div>
-            </div>
-
-            <br/><p><strong>Comillas: </strong></p><br/> 
-            <div id="radioquotlinks" class="form-group shiny-input-radiogroup shiny-input-container ">
-              <div class="shiny-options-group">
-                <input type="radio" name="radioquotlinks" value="simplelinks"><p>Simples</p><br/> 
-                <input type="radio" name="radioquotlinks" value="doublelinks" checked><p>Dobles</p><br/> 
-                <input type="radio" name="radioquotlinks" value="nonelinks"><p>Ninguna</p><br/> 
-              </div>
-            </div>   
-            
-            <br/><br/>              
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <div class="col-md-12">
-
-        <div class="styled-div">
-
-              <button type="button" class="btn btn-primary action-button" id="preProcess" style="width:100%" disabled><h4>¡Pre-procesar y generar reglas!</h4></button>
-              <br/><br/><br/>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <br/>
-
-    <div class="row">
-
-      <div class="col-md-12">
-
-        <div class="styled-div2">
-
-          <button class="btn btn-primary" id="button-rules" style="float:right; margin-right: 15px; margin-top: 5px">Mostrar/Ocultar</button>
-
-          <h4 style="margin-left: 15px"><strong>Reglas de Asociación </strong></h4><br/>
-
-          <div id="rules">
-
-            <div class="row" id="rulesName">
-
-              <div class="col-sm-12">
-
-                <h4>Reglas más importantes: </h4>
-                
-                <pre id="inspectRules" class="shiny-text-output">Cargando reglas...</pre>
-
+              <br/><p><strong>Separador: </strong></p><br/> 
+              <div id="radioseparatorlinks" class="form-group shiny-input-radiogroup shiny-input-container ">
+                <div class="shiny-options-group">
+                  <input type="radio" name="radioseparatorlinks" value="commalinks" checked><p>Coma</p><br/> 
+                  <input type="radio" name="radioseparatorlinks" value="semicolonlinks"><p>Punto y coma</p><br/> 
+                  <input type="radio" name="radioseparatorlinks" value="tablinks"><p>Tabulación</p><br/> 
+                </div>
               </div>
 
-            </div>
-
-            <div class="row" id="subRulesName">
-
-              <div class="col-sm-12">
-
-                <h4>Sub-reglas más importantes de la película seleccionada: </h4>
-                
-                <pre id="inspectSubRules" class="shiny-text-output"></pre>
-
-              </div>
+              <br/><p><strong>Comillas: </strong></p><br/> 
+              <div id="radioquotlinks" class="form-group shiny-input-radiogroup shiny-input-container ">
+                <div class="shiny-options-group">
+                  <input type="radio" name="radioquotlinks" value="simplelinks"><p>Simples</p><br/> 
+                  <input type="radio" name="radioquotlinks" value="doublelinks" checked><p>Dobles</p><br/> 
+                  <input type="radio" name="radioquotlinks" value="nonelinks"><p>Ninguna</p><br/> 
+                </div>
+              </div>   
+              
+              <br/><br/>              
 
             </div>
 
@@ -488,128 +410,192 @@
         </div>
 
       </div>
-
-    </div> 
-
-    </br>
-
-    <div class="styled-div2" style="margin-bottom:25px;">
-    
-
-    <div class="jumbotron fondoazul" style="margin-bottom:25px ">
-      <div class="container text-center">
-        <h1><i class="fa fa-film"></i> App Películas Sugeridas</h1>      
-      </div>
-    </div>
-
-    <div class="row" >
-
-      <div class="col-sm-3 well" >
-
-          <div id="names">
-            <label>Busque una película: </label>
-            <input type="text" class="form-control" id="nameMovie" style="width:100%;"><br>
-            <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
-            
-          </div>         
-         
-          
-          
-      </div> <!--Termina el buscador--> 
-
-    <div class="col-sm-8" >
-     <div id="summary" class="shiny-html-output"></div> 
-    <!-- <pre id="summary" class="shiny-text-output"></pre>-->
-
-      <div class="row" >
-          <div class="col-sm-5" >
-          
-            <div class="well " id="movie1" style="padding-bottom:10px;">
-               
-                <div id="summary1" class="shiny-html-output"></div>
-                <div id="poster1" class="shiny-html-output"></div>
-
-            </div>
-          </div>
-
-          <div class="col-sm-5" >
-            <div class="well " id="movie2" style="padding-bottom:10px;">
-
-                <div id="summary2" class="shiny-html-output"></div>
-                <div id="poster2" class="shiny-html-output"></div>
-
-            </div>
-          </div>
-       </div>
-       <div class="row">   
-          <div class="col-sm-5" >
-            <div class="well " id="movie3" style="padding-bottom:10px;">
-
-                <div id="summary3" class="shiny-html-output"></div>
-                <div id="poster3" class="shiny-html-output"></div>
-
-            </div>
-          </div>
-
-           <div class="col-sm-5" >
-            <div class="well " id="movie4" style="padding-bottom:10px;">
-
-                <div id="summary4" class="shiny-html-output"></div>
-                <div id="poster4" class="shiny-html-output"></div>
-
-            </div>
-          </div>
-          
-      </div> <!--termina primer row de peliculas-->    
 
       <div class="row">
 
-         <div class="col-sm-5">
-            <div class="well " id="movie5" style="padding-bottom:10px;">
+        <div class="col-md-12">
 
-                <div id="summary5" class="shiny-html-output"></div>
-                <div id="poster5" class="shiny-html-output"></div>
+          <div class="styled-div">
+
+                <button type="button" class="btn btn-primary action-button" id="preProcess" style="width:100%" disabled><h4>¡Pre-procesar y generar reglas!</h4></button>
+                <br/><br/><br/>
+
+              </div>
+
+          </div>
+
+      </div>
+
+      <br/>
+
+      <div class="row">
+
+        <div class="col-md-12">
+
+          <div class="styled-div2">
+
+            <button class="btn btn-primary" id="button-rules" style="float:right; margin-right: 15px; margin-top: 5px">Mostrar/Ocultar</button>
+
+            <h4 style="margin-left: 15px"><strong>Reglas de Asociación </strong></h4><br/>
+
+            <div id="rules">
+
+              <div class="row" id="rulesName">
+
+                <div class="col-sm-12">
+
+                  <h4>Reglas más importantes: </h4>
+                  
+                  <pre id="inspectRules" class="shiny-text-output">Cargando reglas...</pre>
+
+                </div>
+
+              </div>
+
+              <div class="row" id="subRulesName">
+
+                <div class="col-sm-12">
+
+                  <h4>Sub-reglas más importantes de la película seleccionada: </h4>
+                  
+                  <pre id="inspectSubRules" class="shiny-text-output"></pre>
+
+                </div>
+
+              </div>
 
             </div>
+
+          </div>
+
+        </div>
+
+      </div> 
+
+      </br>
+
+      <div class="styled-div2" style="margin-bottom:25px;">
+
+        <div class="jumbotron fondoazul" style="margin-bottom:25px ">
+
+          <div class="container text-center">
+            <h1><i class="fa fa-film"></i> App Películas Sugeridas</h1>      
+          </div>
+
+        </div>
+
+        <div class="row" >
+
+          <div class="col-sm-3 well" >
+
+              <div id="names">
+                <label>Busque una película: </label>
+                <input type="text" class="form-control" id="nameMovie" style="width:100%;"><br>
+                <button type="button" class="btn btn-primary action-button" style="width:100%" id="sugerir" disabled><h4>Sugerir Película</h4></button>
+                
+              </div>       
+              
+          </div> <!--Termina el buscador--> 
+
+        <div class="col-sm-8" >
+
+          <div id="summary" class="shiny-html-output"></div> 
+
+          <div class="row" >
+
+              <div class="col-sm-5" >            
+                <div class="well " id="movie1" style="padding-bottom:10px;">
+                   
+                    <div id="summary1" class="shiny-html-output"></div>
+                    <div id="poster1" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-5" >
+                <div class="well " id="movie2" style="padding-bottom:10px;">
+
+                    <div id="summary2" class="shiny-html-output"></div>
+                    <div id="poster2" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+
+           </div>
+
+           <div class="row">   
+              <div class="col-sm-5" >
+                <div class="well " id="movie3" style="padding-bottom:10px;">
+
+                    <div id="summary3" class="shiny-html-output"></div>
+                    <div id="poster3" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+
+               <div class="col-sm-5" >
+                <div class="well " id="movie4" style="padding-bottom:10px;">
+
+                    <div id="summary4" class="shiny-html-output"></div>
+                    <div id="poster4" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+              
+            </div> <!--termina primer row de peliculas-->    
+
+            <div class="row">
+
+             <div class="col-sm-5">
+                <div class="well " id="movie5" style="padding-bottom:10px;">
+
+                    <div id="summary5" class="shiny-html-output"></div>
+                    <div id="poster5" class="shiny-html-output"></div>
+
+                </div>
+              </div> 
+
+              <div class="col-sm-5">
+                <div class="well " id="movie6" style="padding-bottom:10px;">
+
+                    <div id="summary6" class="shiny-html-output"></div>
+                    <div id="poster6" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-sm-5">
+                <div class="well " id="movie7" style="padding-bottom:10px;">
+
+                    <div id="summary7" class="shiny-html-output"></div>
+                    <div id="poster7" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+
+              <div class="col-sm-5" >
+                <div class="well" id="movie8" style="padding-bottom:10px;">
+
+                    <div id="summary8" class="shiny-html-output"></div>
+                    <div id="poster8" class="shiny-html-output"></div>
+
+                </div>
+              </div>
+
+            </div> <!--Termina segundo row de peliculas-->
+          
           </div> 
 
-          <div class="col-sm-5">
-            <div class="well " id="movie6" style="padding-bottom:10px;">
-
-                <div id="summary6" class="shiny-html-output"></div>
-                <div id="poster6" class="shiny-html-output"></div>
-
-            </div>
-          </div>
         </div>
-        <div class="row">
-          <div class="col-sm-5">
-            <div class="well " id="movie7" style="padding-bottom:10px;">
 
-                <div id="summary7" class="shiny-html-output"></div>
-                <div id="poster7" class="shiny-html-output"></div>
+      </div> 
 
-            </div>
-          </div>
-
-          <div class="col-sm-5" >
-            <div class="well" id="movie8" style="padding-bottom:10px;">
-
-                <div id="summary8" class="shiny-html-output"></div>
-                <div id="poster8" class="shiny-html-output"></div>
-
-            </div>
-          </div>
-
-
-      </div> <!--Termina segundo row de peliculas-->
-      
-    </div> <!--Termina col-sm-9--> 
-  </div><!--Termina el row del container-->
-</div> <!--Aqui termina el container-->
-
-   </div>
-   
+    </div>
+     
   </body>
 
 </html>
